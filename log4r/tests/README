@@ -1,0 +1,10 @@
+The unit tests are currently out of date. The examples actually provide
+a decent test suite for log4r. But the unit tests are still very important
+because of bounds-checking and a quicker turnaround for bug discovery.
+The unit files need to be converted to the new 'test/unit' paradigm.
+
+Because Log4r dynamically defines constants according to user preferences, 
+the unit testing can't all be done in one instance of ruby. It is planned
+to use popen to run each test that needs a clean ruby instance.
+
+The logs/ directory is where these tests dump generated log files.

@@ -1,0 +1,23 @@
+Release checklist:
+
+* DON'T FORGET: change install.rb when new src/ files are added
+* Update the log4r.gemspec
+* Update the changelog
+* Update the README
+* Change any INSTALL instructions
+* Update the manuals and HTML
+* Modify what should not appear in the release (bin/prune.rb)
+* Run makedist.rb and check the integrity of the resulting files
+  - Test installs
+  - Run the unit tests (cd tests; ruby testall.rb)
+  - Run all the examples
+  - Browse the docs
+
+
+Who to Tell:
+
+* RubyGems distribution (to upload gem)
+* ruby-talk mailing list
+* RAA
+* RubyForge news
+* RubyForge email notification of new file releases

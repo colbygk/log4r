@@ -1,0 +1,5 @@
+* Add gem generation to the automated build process
+* Rewrite the RDoc in third person (no "you"s) and be more formal
+* Warn of any remaining parameters from XML and YAML in the Configurators
+* Refactor YamlConfigurator and Configurator a bit: XML shouldn't sound
+  like the prefered option

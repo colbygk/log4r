@@ -1,0 +1,99 @@
+1.0.5
+
+* Log4r now available as a RubyGems gem (Jamis Buck)
+* YAML configuration with YamlConfigurator (Andreas Hund)
+* Docs and examples for YAML configuration
+* Minor bugfix in Configurator (Andreas Hund)
+* Make SyslogOutputter use full range of syslog's levels (Tim Bates)
+
+1.0.4
+
+* Actually install syslogoutputter.rb
+* Update to rollingfileoutputter.rb (Martin Stannard)
+* Vastly improved developer friendliness
+
+1.0.3
+
+* Added SyslogOutputter (Steve Lumos)
+* Changed usage of #type to #class to conform to Ruby 1.8
+* Fixed formatter.rb for new sprintf behavior
+* Documentation fixes
+
+1.0.2
+
+* Added RollingFileOutputter (Martain Stannard)
+* Docs and examples for RollingFileOutputter
+* Fixed typos and improved readability of documents
+* Fixed syntax that was giving warnings in Ruby 1.7
+
+1.0.1
+
+* Log blocks
+* Introducing EmailOutputter - email log reports
+* Introducing remote logging - send LogEvents over a network
+* LogEvent wraps up logging data, affects Formatter#format
+* Outputter made abstract, IOOutputter factored out
+* Outputter#flush to empty internal outputter buffers
+* Logger[name] no longer raises an exception
+* Logger.get(name) same as Logger[name] but raises exception
+* Extra requires needed for Configurator, EmailOutputter, and remote logging
+* Added Logger.each_logger and Outputter.each_outputter iterators
+* Internal logging with Logger.log_internal
+
+1.0.0
+
+* IMPORTANT: Outputters must now have names
+* IMPORTANT: Use Configurator.custom_levels instead of Logger.custom_levels
+* Nice XML configuration available with REXML (NQXML is TODO)
+* Introducing the very powerful PatternFormatter
+* Quality and quantity of docs and examples have improved
+* Logger parents don't have to be created explicitly or beforehand
+* A nice logo! :-)
+
+0.9.7
+
+* Fixed bug where logger w/o outputters doesn't log to parent
+
+0.9.6
+
+* Outputters can be set to log specific levels
+* Reduced chances of namespace collision when 'include Log4r'
+* Introducing ObjectFormatter
+* Even more docs.
+
+0.9.5
+
+* Custom levels can now be set with Logger.custom_levels(*mylevels)
+* More docs.
+
+0.9.4
+
+* Tested on Windows XP, everything works.
+* Method Hash params recognize Symbol or String (:filename=> or 'filename'=>)
+* Distributing a build of the Log4r API
+* Logger.global same as Logger.root
+
+0.9.3
+
+* Added lots of documentation (RDoc)
+* Configurable path delimiter for logger inheritance
+* Moved directories around
+
+0.9.2
+
+* Oops, forgot to update the docs
+
+0.9.1
+
+* Additivity is no longer inherited. What a dumb idea tha was.
+* Runtime level inheritance is also a bad idea. Fixed.
+* Added an installer
+* Custom levels! :)
+* Added dynamically toggleable tracing
+* Expanded the manual and examples 
+
+0.9.0
+
+* Outputter class now accepts a generic IO. Previously, it was abstract.
+
+CVSID: $Id$

@@ -1,0 +1,8 @@
+How to build a release using these scripts:
+
+1. When running a script, be in bin/
+2. Edit devconfig.rb to match your setup
+3. Run each script without arguments to see how it's used
+4. 'ruby makedist.rb <version>' to build a distribution
+
+These files work only on unix.

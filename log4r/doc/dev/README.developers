@@ -1,0 +1,55 @@
+This document introduces interested developers to log4r development. It also
+reminds us how things work here. :-)
+
+RubyForge Site
+--------------
+
+Log4r is hosted on RubyForge. It was hosted on SourceForge up to 1.0.5.
+
+Project Full Name:  Log4r
+Project Unix Name:  log4r
+CVS Server:         cvs.log4r.rubyforge.org
+Shell/Web Server:   log4r.rubyforge.org
+Path to web pages:  /var/www/gforge-projects/log4r/
+
+
+HTML manual and site
+--------------------
+
+This is pieced together with a homebrewed content-template system. 
+doc/content has the actual contents, which are just three lines of metadata 
+and a bunch of <tr>s that are incorporated into a template. The only template 
+is doc/templates/main.html which is universal. To test the changes, run 
+bin/makedoc.rb directly and check the results in doc/index.html.
+
+
+Testing RDoc
+------------
+Either run bin/makerdoc.rb directly or,
+
+  cd src/
+  rdoc --op /tmp/rdoc --template kilmer --main log4r.rb
+
+
+Automated Builds
+----------------
+
+The build system is automated and relies on CVS and ruby. There are three main
+things that go on during build:
+
+1) bin/makedist.rb checks out a build to prepare for distribution and calls
+   other build scripts, then assembles the distribution into tgz and zip balls
+
+2) HTML manual is constructed by bin/makehtml.rb, called from makedist.rb
+
+3) RDoc is constructed by bin/makerdoc.rb, called from makedist.rb
+
+All system variables and configurable options are in bin/devconfig.rb.
+
+Essentially, the only thing that needs to be done to build packages for
+distribution is,
+
+  ruby makedist.rb <version-number>
+
+The results are one tarball, one zip file of the same, and one documentation
+tarball ready to be placed on the log4r home page.
