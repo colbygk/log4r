@@ -55,8 +55,8 @@ module Log4r
     def format(event)
       buff = sprintf(@@basicformat, MaxLevelLength, LNAMES[event.level],
              event.name)
-      buff += (event.tracer.nil? ? "" : "(#{event.tracer[0]})") + ": "
-      buff += format_object(event.data) + "\n"
+      buff << (event.tracer.nil? ? "" : "(#{event.tracer[0]})") + ": "
+      buff << format_object(event.data) + "\n"
       buff
     end
 
@@ -91,9 +91,9 @@ module Log4r
   class ObjectFormatter < Formatter
     def format(event)
       buff = event.logger.name
-      buff += (event.tracer.nil? ? "" : ":#{event.tracer[0]}") + ">\n"
-      buff += (event.data.kind_of?(String) ? event.data : event.data.inspect)
-      buff += "\n"
+      buff << (event.tracer.nil? ? "" : ":#{event.tracer[0]}") + ">\n"
+      buff << (event.data.kind_of?(String) ? event.data : event.data.inspect)
+      buff << "\n"
     end
   end
   

@@ -90,17 +90,17 @@ module Log4r
       args = [] # the args to sprintf which we'll append to ebuff lastly
       while true # work on each match in turn
         match = DirectiveRegexp.match _pattern
-        ebuff += match[1] unless match[1].empty?
+        ebuff << match[1] unless match[1].empty?
         break if match[2].nil?
         # deal with the directive by inserting a %#.#s where %#.# is copied
         # directy from the match
-        ebuff += match[3] + "s"
+        ebuff << match[3] + "s"
         args << DirectiveTable[match[5]] # cull the data for our argument list
         break if match[6].empty?
         _pattern = match[6]
       end
-      ebuff += '\n", ' + args.join(', ') + ")\n"
-      ebuff += "end\n"
+      ebuff << '\n", ' + args.join(', ') + ")\n"
+      ebuff << "end\n"
       module_eval ebuff
     end
   end
