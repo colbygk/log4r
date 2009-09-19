@@ -1,4 +1,47 @@
-Log4r is copyrighted free software by Leon Torres <leon@ugcs.caltech.edu>.
+
+This software has evolved through three maintainers and three
+copyright notices.  I am an employee of UC Berkeley, which
+therefore makes me an employee of the State of California.
+By law, all works that I create as part of my job are
+owned by the University of California Regents.  I am able
+to mark software as being under the Gnu General Lesser Public
+License v3 and have done so for my versions of the Log4r software.
+
+See the file LICENSE.LGPLv3 for more information.
+
+18 Sept 2009
+Colby Gutierrez-Kraybill
+colby@astro.berkeley.edu
+
+Copyright (c) 2009 University of California Regents
+Copyright (c) 2007, 2008 Revolution Health
+Copyright (c) 2002-2004 Leon Torres
+
+---------------------------------------------------------------------
+Copyright (c) 2007, 2008 Revolution Health
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+"Software"), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+----------------------------------------------------------------------
+
+--------------------------------------------------------------------------
+Copyright (c) 2002, 2004 Leon Torres <leon@ugcs.caltech.edu>
+Log4r is copyrighted free software
 You can redistribute it and/or modify it under either the terms of the GPL, 
 or the conditions below::
 
@@ -44,4 +87,4 @@ or the conditions below::
      IMPLIED WARRANTIES, INCLUDING, WITHOUT LIMITATION, THE IMPLIED
      WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
      PURPOSE.
-
+---------------------------------------------------------------------------
