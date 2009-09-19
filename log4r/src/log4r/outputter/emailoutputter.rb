@@ -14,7 +14,6 @@ module Log4r
       validate(hash)
       @buff = []
       begin 
-        @smtp = Net::SMTP.start(*@params)
         Logger.log_internal {
           "EmailOutputter '#{@name}' running SMTP client on #{@server}:#{@port}"
         }
@@ -101,7 +100,9 @@ module Log4r
         "#{msg}"
 
       ### send email
-      begin @smtp.sendmail(rfc822msg, @from, @to)
+      begin Net::SMTP.start(*@params) do |smtp|
+        smtp.sendmail(rfc822msg, @from, @to)
+      end
       rescue Exception => e
         Logger.log_internal(-2) {
           "EmailOutputter '#{@name}' couldn't send email!"
