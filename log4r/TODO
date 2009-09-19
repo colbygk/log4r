@@ -1,0 +1,32 @@
+Merge log4r project changes from github, including NDC and GDC
+From the github project README:
+  === NDC
+
+  NDCs are per thread, and can be set by:
+
+  Log4r::Logger::NDC.push('something')
+
+  Then in the configuration xml it can be used:
+
+  pattern="%x"
+
+  Which will output the top most diagnostic message on the NDC stack.
+
+  Based on the log4j NDC implementation:
+    http://logging.apache.org/log4j/1.2/apidocs/org/apache/log4j/NDC.html
+
+  === GDC
+
+  We also added a Global Diagnostic Context for per application diagnostic messages.
+
+  Log4r::Logger.GDC = "app1"
+
+  Then in the configuration xml it can be used:
+
+  pattern="%g"
+
+  log4_logging.rb uses this to set the message to be the name of the rails application.  
+  This can be useful for sorting messages if logs for multiple applications are
+  aggregated at a single point, 
+  for example in something like Splunk.
+
