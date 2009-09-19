@@ -3,7 +3,6 @@
 # == Other Info
 #
 # Version:: $Id$
-# Author::  Leon Torres <leon@ugcs.caltech.edu>
 
 require "log4r/formatter/formatter"
   
@@ -16,7 +15,7 @@ module Log4r
       "c" => 'event.name',
       "C" => 'event.fullname',
       "d" => 'format_date',
-      "t" => 'event.tracer[0]',
+      "t" => '(event.tracer.nil? ? "no trace" : event.tracer[0])',
       "m" => 'event.data',
       "M" => 'format_object(event.data)',
       "l" => 'LNAMES[event.level]',
