@@ -1,3 +1,6 @@
+
+Modify syslogoutputter to abstract away from exposing the underlying syslog interface.
+
 Merge log4r project changes from github, including NDC and GDC
 From the github project README:
   === NDC
