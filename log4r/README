@@ -1,18 +1,17 @@
 Log4r - A flexible logging library for Ruby
 
 
-This release:      1.0.5
-Release date:      2004/03/17
+This release:      1.0.6
+Release date:      2009/09/18
 License:           Ruby's 
-Maintainer:        Leon Torres <leon@ugcs.caltech.edu>
-Contributors:      Martain Stannard     RollingFileOutputter
+Maintainer:        Colby Gutierrez-Kraybill
+Contributors:      Leon Torres          Original Maintainer
+                   Martain Stannard     RollingFileOutputter
                    Steve Lumos          SyslogOutputter
                    Andreas Hund         YamlConfigurator
                    Jamis Buck           log4r.gemspec
-Homepage:          http://log4r.sourceforge.net/
-Download:          http://sourceforge.net/project/showfiles.php?group_id=43396
-SF Project page:   http://sourceforge.net/projects/log4r
-
+Homepage:          http://rubyforge.org/projects/log4r/
+Download:          http://rubyforge.org/frs/?group_id=203
 
 Summary
 -------
@@ -45,14 +44,14 @@ More Info
   Online: http://log4r.sourceforge.net/
 
 * Manual: doc/manual.html
-  Online: http://log4r.sourceforge.net/manual.html
+  Online: http://rubyforge.org/docman/?group_id=203
   
 * RDoc API reference: doc/rdoc/index.html 
-  Online: http://log4r.sourceforge.net/rdoc/index.html
+  Online: http://rubyforge.org/docman/index.php?group_id=203
   
 * The changelog
 
-* Log4r is hosted by SourceForge, which provides news, bug tracking and a forum
+* Log4r is hosted by RubyForge, which provides news, bug tracking and a forum
 
 * Feel free to bug the maintainer with any questions (listed at top of file)
 
@@ -86,8 +85,7 @@ Try running the unit tests provided (run the file tests/runtest.rb). Let
 the maintainer know what's up and feel free to explore and fix the 
 code yourself. It's well documented and written in Ruby. :)
 
-Also, try out the bug tracking system at 
-http://sourceforge.net/tracker/?atid=436181&group_id=43396&func=browse
-
+Also, try out the bug/request tracking system at 
+http://rubyforge.org/tracker/?group_id=203
 
 Version: $Id$
