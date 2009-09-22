@@ -1,3 +1,15 @@
+
+1.0.6
+
+* New maintainer Colby Gutierrez-Kraybill
+* Update LICENSE and add LICENCE.LGPLv3
+* Bug #3322, #3996, #23344 (duplicates) fix
+*   %t not handled correctly in patternoutputter
+* Bug #5491 fix
+*   emailoutputter loses messages
+* RFE #19847
+*   Use << instead of += to build messages, faster
+
 1.0.5
 
 * Log4r now available as a RubyGems gem (Jamis Buck)
