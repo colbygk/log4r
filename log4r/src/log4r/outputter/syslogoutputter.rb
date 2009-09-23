@@ -94,7 +94,7 @@ module Log4r
     private
 
     def canonical_log(logevent)
-      pri = SYSLOG_LEVELS_MAP[SYSLOG_LOG4R_MAP[LNAMES[logevent.level]]] rescue pri = LOG_INFO
+      pri = SYSLOG_LEVELS_MAP[@levels_map[LNAMES[logevent.level]]] rescue pri = LOG_INFO
       o = format(logevent)
       if o.kind_of? Exception then
 	msg = "#{o.class} at (#{o.backtrace[0]}): #{o.message}"
