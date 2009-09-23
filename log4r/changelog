@@ -1,3 +1,10 @@
+1.1.0
+
+* syslogoutputter overhauled, compatible with older versions
+*  see documentation for usage
+* Fixed pre-existing bug where syslogoutputter would
+*  ignore using a formatter.
+* Added Rakefile from Revolution Health version of log4r
 
 1.0.6
 
