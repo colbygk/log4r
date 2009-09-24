@@ -59,7 +59,11 @@ module Log4r
       logopt = (hash[:logopt] or hash['logopt'] or LOG_PID | LOG_CONS).to_i
       facility = (hash[:facility] or hash['facility'] or LOG_USER).to_i
       map_levels_by_name_to_syslog()
-      @syslog = Syslog.open(ident, logopt, facility)
+      if ( Syslog.opened? ) then
+	Logger.log_internal { "Syslog already initialized, to alter, " +
+	  "you must close first"}
+      end
+      @syslog = ( Syslog.opened? ) ? Syslog : Syslog.open(ident, logopt, facility)
     end
 
     def closed?
