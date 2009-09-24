@@ -17,6 +17,8 @@ module Log4r
       "d" => 'format_date',
       "t" => '(event.tracer.nil? ? "no trace" : event.tracer[0])',
       "m" => 'event.data',
+      "h" => 'thread_name',
+      "p" => 'Process.pid.to_s',
       "M" => 'format_object(event.data)',
       "l" => 'LNAMES[event.level]',
       "%" => '"%"'
@@ -31,7 +33,7 @@ module Log4r
     # * $5 is the directive letter
     # * $6 is the stuff after the directive or "" if not applicable
   
-    DirectiveRegexp = /([^%]*)((%-?\d*(\.\d+)?)([cCdtmMl%]))?(.*)/
+    DirectiveRegexp = /([^%]*)((%-?\d*(\.\d+)?)([cCdtmhpMl%]))?(.*)/
   
     # default date format
     ISO8601 = "%Y-%m-%d %H:%M:%S"
@@ -60,6 +62,10 @@ module Log4r
       @date_method = (hash['date_method'] or hash[:date_method] or nil)
       @date_pattern = ISO8601 if @date_pattern.nil? and @date_method.nil?
       PatternFormatter.create_format_methods(self)
+    end
+
+    def thread_name
+      Thread.current[:name] || Thread.current.to_s
     end
 
     # PatternFormatter works by dynamically defining a <tt>format</tt> method
