@@ -138,7 +138,7 @@ module Log4r
     def is_root?; false end
 
     def ==(other)
-      return true if id == other.id
+      return true if self.object_id == other.object_id
     end
   end
 
