@@ -23,6 +23,7 @@ module Log4r
         }
         Logger.log_internal {e}
         self.level = OFF
+	raise e
       end
     end
 
@@ -109,6 +110,7 @@ module Log4r
         }
         Logger.log_internal {e}
         self.level = OFF
+	raise e
       ensure @buff.clear
       end
     end
