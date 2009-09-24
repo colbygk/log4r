@@ -20,7 +20,7 @@ include Syslog::Constants
 Configurator.custom_levels "Foo", "Bar", "Baz"
 
 l = Logger.new('custom levels')
-slp = PatternFormatter.new( :pattern => '{%d} {%l} {%C} {%m}', :date_method => 'usec' )
+slp = PatternFormatter.new( :pattern => '{%p} {%h} {%d} {%l} {%C} {%m}', :date_method => 'usec' )
 sl = SyslogOutputter.new( 'sysloggertest', 
 			 { :logopt => LOG_CONS | LOG_PID | LOG_PERROR,
 			   :facility => LOG_LOCAL7,
