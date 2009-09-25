@@ -1,3 +1,11 @@
+1.1.2
+
+* Updated documentation
+* Using darkfish rdoc style for API docs
+*  still need to work on rake rule for docs generation
+* Bug fix for multiple attempts to open syslog from
+*  Sonny Rubuen Garcia
+
 1.1.1
 
 * Remove unnecessary log4r.gemspec file, this is now generated

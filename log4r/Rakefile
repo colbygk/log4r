@@ -10,7 +10,7 @@ require 'date'
 require 'fileutils'
 
 GEM = "log4r"
-GEM_VERSION = "1.1.1"
+GEM_VERSION = "1.1.2"
 AUTHOR = "Colby Gutierrez-Kraybill"
 EMAIL = "colby@astro.berkeley.edu"
 HOMEPAGE = %q{http://log4r.rubyforge.org}
@@ -23,7 +23,7 @@ spec = spec = Gem::Specification.new do |s|
   s.rubyforge_project = s.name
   s.version = GEM_VERSION
   s.platform = Gem::Platform::RUBY
-  s.has_rdoc = false
+  s.has_rdoc = true
   s.extra_rdoc_files = ["README", "LICENSE", 'TODO']
   s.summary = SUMMARY
   s.description = DESCRIPTION
