@@ -45,3 +45,8 @@ puts l.bar?
 l.bar {"this is bar"}
 puts l.baz?
 l.baz {"this is baz"}
+
+l4r = Logger.new('log4r')
+l4r.add Log4r::Outputter.stderr
+
+Log4r::SyslogOutputter.new 'test'

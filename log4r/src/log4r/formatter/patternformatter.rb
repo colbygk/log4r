@@ -11,6 +11,16 @@ module Log4r
   class PatternFormatter < BasicFormatter
   
     # Arguments to sprintf keyed to directive letters
+    # %c - event short name
+    # %C - event fullname
+    # %d - date
+    # %t - trace
+    # %m - message
+    # %h - thread name
+    # %p - process ID aka PID
+    # %M - formatted message
+    # %l - Level in string form
+    # %% - Insert a %
     DirectiveTable = {
       "c" => 'event.name',
       "C" => 'event.fullname',

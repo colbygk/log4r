@@ -11,19 +11,21 @@ require 'syslog'
 
 module Log4r
 
-  # syslog needs to set the custom levels
-  #if LNAMES.size > 1
-  #  raise LoadError, "Must let syslogger.rb define custom levels"
-  #end
-  # tune log4r to syslog priorities
-  #Configurator.custom_levels("DEBUG", "INFO", "NOTICE", "WARNING", "ERR", "CRIT", "ALERT", "EMERG")
-
   SYSLOGNAMES = Hash.new
 
   class SyslogOutputter < Outputter
     include Syslog::Constants
 
     # maps default log4r levels to syslog priorities (logevents never see ALL and OFF)
+    # SYSLOG Levels are:
+    #  "DEBUG"  => Syslog::LOG_DEBUG
+    #  "INFO"   => Syslog::LOG_INFO
+    #  "NOTICE" => Syslog::LOG_NOTICE
+    #  "WARN"   => Syslog::LOG_WARN
+    #  "ERROR"  => Syslog::LOG_ERROR
+    #  "FATAL"  => Syslog::LOG_FATAL
+    #  "ALERT"  => Syslog::LOG_ALERT
+    #  "EMERG"  => Syslog::LOG_EMERG
     SYSLOG_LEVELS_MAP = {
       "DEBUG"  => LOG_DEBUG, 
       "INFO"   => LOG_INFO, 
@@ -35,6 +37,12 @@ module Log4r
       "EMERG"  => LOG_EMERG,   # by default EMERG is not in log4r
     }
 
+    # mapping from Log4r default levels to syslog, by string name
+    # "DEBUG" => "DEBUG"
+    #  "INFO"   => "INFO" 
+    #  "WARN"   => "WARN"
+    #  "ERROR"  => "ERROR" 
+    #  "FATAL"  => "FATAL"
     SYSLOG_LOG4R_MAP = {
       "DEBUG"  => "DEBUG", 
       "INFO"   => "INFO", 
@@ -87,6 +95,14 @@ module Log4r
     # 				should provide this underlying mapping, otherwise
     # 				all messages will be mapped to the underlying syslog
     # 				level of INFO by default.
+    # 				e.g.
+    # 				You have created custom levels called:
+    # 				<tt>Configurator.custom_levels "HIGH", "MEDIUM", "LOW"</tt>
+    # 				To map these to 'equivilent' syslog levels, after instantiatin
+    # 				a syslogoutputter:
+    # 				<tt>SyslogOutputter.map_levels_by_name_to_syslog(
+    # 				{ "HIGH" => "ALERT", "MEDIUM" => "WARN", "LOW" => "INFO" }
+    # 				)</tt>
     def map_levels_by_name_to_syslog( lmap = SYSLOG_LOG4R_MAP )
       @levels_map = lmap
     end
