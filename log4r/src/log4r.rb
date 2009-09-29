@@ -13,5 +13,5 @@ require "log4r/formatter/patternformatter"
 require "log4r/loggerfactory"
 
 module Log4r
-  Log4rVersion = [1, 1, 2].join '.'
+  Log4rVersion = [1, 1, 3].join '.'
 end
