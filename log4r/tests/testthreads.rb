@@ -1,12 +1,11 @@
 # $Id$
 # Test sent in by chetreddy bug #27184
-# After threading synchronize blocks put in on MacPro Quad Woodcrest 2.6GHz
-# running ruby 1.8.6, wall clock
-# colby@gks tests $ time ruby testthreads.rb
-#
-# real	0m20.826s
-# user	0m20.453s
-# sys	0m0.344s
+# 
+# Note: this test won't always catch a threading problem, as it
+# relies on a brute force approach.  NUM_THREADS can be increased
+# to stress the system longer and therefore increasing the chance
+# of exposing a threading issue, however, it is not a definitive
+# test.
 #
 
 $: << File.join("..","src")
@@ -14,7 +13,7 @@ $: << File.join("..","src")
 require 'rubygems'
 require 'log4r'
 
-NUM_THREADS=5000
+NUM_THREADS=2000
 
 cnt = 0
 
