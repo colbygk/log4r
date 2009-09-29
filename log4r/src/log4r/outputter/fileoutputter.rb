@@ -18,6 +18,7 @@ module Log4r
 
       @trunc = Log4rTools.decode_bool(hash, :trunc, true)
       _filename = (hash[:filename] or hash['filename'])
+      @create = Log4rTools.decode_bool(hash, :create, true)
 
       if _filename.class != String
         raise TypeError, "Argument 'filename' must be a String", caller
@@ -38,10 +39,16 @@ module Log4r
       end
 
       @filename = _filename
-      @out = File.new(@filename, (@trunc ? "w" : "a")) 
-      Logger.log_internal {
-        "FileOutputter '#{@name}' writing to #{@filename}"
-      }
+      if ( @create == true ) then
+	@out = File.new(@filename, (@trunc ? "w" : "a")) 
+	Logger.log_internal {
+	  "FileOutputter '#{@name}' writing to #{@filename}"
+	}
+      else
+	Logger.log_internal {
+	  "FileOutputter '#{@name}' called with :create == false, #{@filename}"
+	}
+      end
     end
 
   end

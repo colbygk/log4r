@@ -18,7 +18,7 @@ module Log4r
 
     def initialize(_name, hash={})
       @count = 0
-      super(_name, hash)
+      super( _name, hash.merge({:create => false}) )
       if hash.has_key?(:maxsize) || hash.has_key?('maxsize') 
         _maxsize = (hash[:maxsize] or hash['maxsize']).to_i
         if _maxsize.class != Fixnum
@@ -85,7 +85,12 @@ module Log4r
     # roll the file
     def roll
       begin
-        @out.close
+	# If @baseFilename == @filename, then this method is about to
+	# try to close out a file that is not actually opened because
+	# fileoutputter has been called with the parameter roll=true
+	if ( @baseFilename != @filename ) then
+	  @out.close
+	end
       rescue 
         Logger.log_internal {
           "RollingFileOutputter '#{@name}' could not close #{@filename}"
