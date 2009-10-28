@@ -1,3 +1,12 @@
+1.1.3
+
+* Bug #27184 fixed
+*   Calls to Logger.new not thread safe, now fixed
+* Bug #27177 fixed
+*   RollingFileOutputter generates spurious non-numbered files no more.
+* Bug #27369 fixed
+*   Null at end of yamlconfigurator.rb
+
 1.1.2
 
 * Updated documentation
