@@ -5,6 +5,9 @@
 # Version:: $Id$
 
 require "log4r/formatter/formatter"
+require "log4r/GDC"
+require "log4r/MDC"
+require "log4r/NDC"
   
 module Log4r
   # See log4r/formatter/patternformatter.rb
@@ -14,23 +17,29 @@ module Log4r
     # %c - event short name
     # %C - event fullname
     # %d - date
+    # %g - Global Diagnostic Context (GDC)
     # %t - trace
     # %m - message
     # %h - thread name
     # %p - process ID aka PID
     # %M - formatted message
     # %l - Level in string form
+    # %x - Nested Diagnostic Context (NDC)
+    # %X - Mapped Diagnostic Context (MDC), syntax is "%X.key"
     # %% - Insert a %
     DirectiveTable = {
       "c" => 'event.name',
       "C" => 'event.fullname',
       "d" => 'format_date',
+      "g" => 'GDC.get()',
       "t" => '(event.tracer.nil? ? "no trace" : event.tracer[0])',
       "m" => 'event.data',
       "h" => '(Thread.current[:name] or Thread.current.to_s)',
       "p" => 'Process.pid.to_s',
       "M" => 'format_object(event.data)',
       "l" => 'LNAMES[event.level]',
+      "x" => 'NDC.get()',
+      "X" => '($4 != "" ? MDC.get($4.to_s)',
       "%" => '"%"'
     }
   
