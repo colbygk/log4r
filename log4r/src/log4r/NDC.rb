@@ -5,94 +5,82 @@
 # Version:: $Id$
 # Author:: Colby Gutierrez-Kraybill <colby(at)astro.berkeley.edu>
 
-require 'monitor'
-
 module Log4r
   NDCNAME = "log4rNDC"
   NDCNAMEMAXDEPTH = "log4rNDCMAXDEPTH"
   NDCDEFAULTMAXDEPTH = 100
-  
+
   # See log4r/NDC.rb
-  class NDC < Monitor
-    
-    def initialize()
-      synchronize do
-	if ( Thread.current[NDCNAME] == nil ):
-	  Thread.current[NDCNAME] = Array.new
-	  Thread.current[NDCNAMEMAXDEPTH] = NDCDEFAULTMAXDEPTH
-	end
+  class NDC
+    private_class_method :new
+
+    def self.check_thread_instance()
+      if ( Thread.current[NDCNAME] == nil ):
+	Thread.current[NDCNAME] = Array.new
+	Thread.current[NDCNAMEMAXDEPTH] = NDCDEFAULTMAXDEPTH
+	Thread.current[NDCNAME]
       end
     end
 
-    def clear()
-      initialize()
-      synchronize do
-	Thread.current[NDCNAME].clear
-      end
+    def self.clear()
+      self.check_thread_instance()
+      Thread.current[NDCNAME].clear
     end
 
-    def clone_stack()
-      initialize()
-      synchronized do
-	return Thread.current[NDCNAME].clone
-      end
+    def self.clone_stack()
+      self.check_thread_instance()
+      return Thread.current[NDCNAME].clone
     end
 
-    def get_depth()
-      initialize()
-      synchronized do
-	return Thread.current[NDCNAME].length
-      end
+    def self.get_depth()
+      self.check_thread_instance()
+      return Thread.current[NDCNAME].length
     end
 
-    def inherit( a_stack )
-      synchronized do
-	if ( a_stack.class == Array ):
-	  Thread.current[NDCNAME] = a_stack
-	else
-	  raise "Expecting Array in NDC.inherit"
-	end
-      end
-    end
-
-    def peek()
-      initialize()
-      synchronized do
-	return Thread.current[NDCNAME].last
-      end
-    end
-
-    def pop()
-      initialize()
-      synchronized do
-	return Thread.current[NDCNAME].pop
-      end
-    end
-
-    def push( value )
-      initialize()
-      synchronized do
-	if ( Thread.current[NDCNAME].length < Thread.current[NDCNAMEMAXDEPTH] ):
-	  Thread.current[NDCNAME].push( value )
-	end
-      end
-    end
-
-    def remove()
-      synchronized do
-	if ( Thread.current[NDCNAME] != nil ):
-	  Thread.current[NDCNAME].remove
-	  Thread.current[NDCNAMEMAXDEPTH] = nil
+    def self.inherit( a_stack )
+      if ( a_stack.class == Array ) then
+	if ( Thread.current[NDCNAME] != nil ) then
+	  Thread.current[NDCNAME].clear
 	  Thread.current[NDCNAME] = nil
 	end
+	Thread.current[NDCNAME] = a_stack
+      else
+	raise "Expecting Array in NDC.inherit"
       end
     end
 
-    def set_max_depth( max_depth )
-      initialize()
-      synchronized do
-	Thread.current[NDCNAMEMAXDEPTH] = max_depth
+    def self.get()
+      self.check_thread_instance
+      return Thread.current[NDCNAME] * " "
+    end
+
+    def self.peek()
+      self.check_thread_instance()
+      return Thread.current[NDCNAME].last
+    end
+
+    def self.pop()
+      self.check_thread_instance()
+      return Thread.current[NDCNAME].pop
+    end
+
+    def self.push( value )
+      self.check_thread_instance()
+      if ( Thread.current[NDCNAME].length < Thread.current[NDCNAMEMAXDEPTH] ):
+	Thread.current[NDCNAME].push( value )
       end
+    end
+
+    def self.remove()
+      self.check_thread_instance()
+      Thread.current[NDCNAME].clear
+      Thread.current[NDCNAMEMAXDEPTH] = nil
+      Thread.current[NDCNAME] = nil
+    end
+
+    def self.set_max_depth( max_depth )
+      self.check_thread_instance()
+      Thread.current[NDCNAMEMAXDEPTH] = max_depth
     end
   end
 end
