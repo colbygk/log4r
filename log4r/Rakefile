@@ -10,7 +10,7 @@ require 'date'
 require 'fileutils'
 
 GEM = "log4r"
-GEM_VERSION = "1.1.2"
+GEM_VERSION = "1.1.4"
 AUTHOR = "Colby Gutierrez-Kraybill"
 EMAIL = "colby@astro.berkeley.edu"
 HOMEPAGE = %q{http://log4r.rubyforge.org}
@@ -57,7 +57,7 @@ task :make_spec do
   end
 end
 
-require 'test/unit'
+# require 'test/unit'
 
 # TODO: integrate unit tests
 #task :test do
@@ -69,6 +69,6 @@ require 'test/unit'
 #  exit if !runner.run
 #end
 
-task :default => [:test, :package] do
+task :default => [:package] do
 end
 
