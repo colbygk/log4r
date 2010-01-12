@@ -1,0 +1,16 @@
+= MDC
+
+The MDC class implements a copy of the Mapped Diagnostic Context, which
+is part of the Apache Log4j library.  See the NDC documentation for
+more details.  MDCs are much like NDCs, but instead of a stack context
+it uses a map for holding this information.
+
+This allows for selection of information out of the map when
+the log message is being created.
+
+MDCs are thread safe, and are unique to each thread.
+
+An important difference between MDCs in Log4r vs Log4j is that they
+only inherit from the main thread.  Ruby treats all new threads as
+being the children of the main thread, even if they are started
+from a thread that is not main.

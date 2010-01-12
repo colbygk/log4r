@@ -1,0 +1,41 @@
+= NDC
+
+The NDC class implements a copy of the Nested Diagnostic Context, which
+is part of the Apache Log4j library.  Nested Diagnostic Contexts were
+derived from Neil Harrison's article on "Patterns for Logging
+Diagnostic Messages", part of the book "Pattern Languages of Program
+Design 3" edited by Martin et al.
+
+NDCs in Log4r are thread safe.
+
+NDCs in log4r are close enough to NDCs in Log4j that I include its
+documentation directly:
+
+...
+A Nested Diagnostic Context, or NDC in short, is an instrument to
+distinguish interleaved log output from different sources. Log output
+is typically interleaved when a server handles multiple clients
+near-simultaneously.
+
+Interleaved log output can still be meaningful if each log entry from
+different contexts had a distinctive stamp. This is where NDCs come into
+play.
+
+Note that NDCs are managed on a per thread basis. NDC operations such as
+push, pop(), clear(), getDepth() and setMaxDepth(int) affect the NDC of
+the current thread only. NDCs of other threads remain unaffected.
+...
+
+An important difference between NDCs in Log4r vs Log4j is that you
+do not have to called NDC.remove() when exiting a thread.
+
+This class will automatically create Thread specific storage for the 
+current thread on the first call to any of its methods, i.e.
+
+  NDC.push( "client accept" );
+
+New threads may inherit the NDC of the parent thread by making use of
+the clone_stack() and inherit() methods.  By default, the NDC is not
+inherited automatically.  This is unlike MDCs, which will inherit from
+the main thread.
+

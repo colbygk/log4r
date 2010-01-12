@@ -1,0 +1,14 @@
+= GDC
+
+The GDC class implements a copy of the Global Diagnostic Context, which
+is not part of the Apache Log4j library, as of this writing (10 Jan 2009).
+
+The GDC is like the NDC and MDC classes, only it is global to the
+application (see NDC and MDC for details on those classes).
+
+The GDC is local to the main thread, and any new threads will return
+the value of the current GDC set in the main thread.
+
+Only the main thread can set the GDC, any other threads that
+attempt to will raise an exception.
+
