@@ -18,7 +18,6 @@ module Log4r
       if ( Thread.current[NDCNAME] == nil ):
 	Thread.current[NDCNAME] = Array.new
 	Thread.current[NDCNAMEMAXDEPTH] = NDCDEFAULTMAXDEPTH
-	Thread.current[NDCNAME]
       end
     end
 

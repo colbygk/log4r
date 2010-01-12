@@ -31,15 +31,15 @@ module Log4r
       "c" => 'event.name',
       "C" => 'event.fullname',
       "d" => 'format_date',
-      "g" => 'GDC.get()',
+      "g" => 'Log4r::GDC.get()',
       "t" => '(event.tracer.nil? ? "no trace" : event.tracer[0])',
       "m" => 'event.data',
       "h" => '(Thread.current[:name] or Thread.current.to_s)',
       "p" => 'Process.pid.to_s',
       "M" => 'format_object(event.data)',
       "l" => 'LNAMES[event.level]',
-      "x" => 'NDC.get()',
-      "X" => '($4 != "" ? MDC.get($4.to_s)',
+      "x" => 'Log4r::NDC.get()',
+      "X" => 'Log4r::MDC.get("DTR_REPLACE")',
       "%" => '"%"'
     }
   
@@ -52,7 +52,7 @@ module Log4r
     # * $5 is the directive letter
     # * $6 is the stuff after the directive or "" if not applicable
   
-    DirectiveRegexp = /([^%]*)((%-?\d*(\.\d+)?)([cCdtmhpMl%]))?(.*)/
+    DirectiveRegexp = /([^%]*)((%-?\d*(\.\d+)?)([cCdgtmhpMlxX%]))?(\{.+?\})?(.*)/
   
     # default date format
     ISO8601 = "%Y-%m-%d %H:%M:%S"
@@ -116,9 +116,14 @@ module Log4r
         # deal with the directive by inserting a %#.#s where %#.# is copied
         # directy from the match
         ebuff << match[3] + "s"
-        args << DirectiveTable[match[5]] # cull the data for our argument list
-        break if match[6].empty?
-        _pattern = match[6]
+	if ( match[5] == 'X' && match[6] != nil ) then
+	  args <<
+	  DirectiveTable[match[5]].gsub("DTR_REPLACE", match[6]).gsub(/[\{\}]/,'')
+	else
+	  args << DirectiveTable[match[5]]  # cull the data for our argument list
+	end
+        break if match[7].empty?
+        _pattern = match[7]
       end
       ebuff << '\n", ' + args.join(', ') + ")\n"
       ebuff << "end\n"
