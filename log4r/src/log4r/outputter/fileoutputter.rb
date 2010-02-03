@@ -16,7 +16,7 @@ module Log4r
     def initialize(_name, hash={})
       super(_name, nil, hash)
 
-      @trunc = Log4rTools.decode_bool(hash, :trunc, true)
+      @trunc = Log4rTools.decode_bool(hash, :trunc, false)
       _filename = (hash[:filename] or hash['filename'])
       @create = Log4rTools.decode_bool(hash, :create, true)
 
