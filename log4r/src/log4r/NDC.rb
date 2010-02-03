@@ -15,7 +15,7 @@ module Log4r
     private_class_method :new
 
     def self.check_thread_instance()
-      if ( Thread.current[NDCNAME] == nil ):
+      if ( Thread.current[NDCNAME] == nil ) then
 	Thread.current[NDCNAME] = Array.new
 	Thread.current[NDCNAMEMAXDEPTH] = NDCDEFAULTMAXDEPTH
       end
@@ -65,7 +65,7 @@ module Log4r
 
     def self.push( value )
       self.check_thread_instance()
-      if ( Thread.current[NDCNAME].length < Thread.current[NDCNAMEMAXDEPTH] ):
+      if ( Thread.current[NDCNAME].length < Thread.current[NDCNAMEMAXDEPTH] ) then
 	Thread.current[NDCNAME].push( value )
       end
     end
