@@ -20,7 +20,7 @@ module Log4r
     end
 
     def self.get()
-      $globalMDCLock.synchronize do
+      $globalGDCLock.synchronize do
 	if ( Thread.main[GDCNAME] == nil ) then
 	  Thread.main[GDCNAME] = $0
 	end
@@ -29,7 +29,10 @@ module Log4r
     end
 
     def self.set( a_name )
-      $globalMDCLock.synchronize do
+      if ( Thread.current != Thread.main ) then
+	raise "Can only initialize Global Diagnostic Context from Thread.main" 
+      end
+      $globalGDCLock.synchronize do
 	Thread.main[GDCNAME] = a_name
       end
     end
