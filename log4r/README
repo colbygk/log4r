@@ -1,8 +1,8 @@
 Log4r - A flexible logging library for Ruby
 
 
-This release:      1.1.4 
-Release date:      12/Jan/2010
+This release:      1.1.5 
+Release date:      02/Feb/2010
 License:           Ruby's 
 Maintainer:        Colby Gutierrez-Kraybill
 Contributors:      Leon Torres          Original Maintainer
@@ -30,7 +30,6 @@ Requirements
 * (optional) RubyGems for installing Log4r as a gem
 * (optional) Ruby syslog library for SyslogOutputter
 * (optional) XML configuration requires REXML
-* (optional) Remote logging requires ROMP 
 
 
 More Info

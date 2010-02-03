@@ -1,4 +1,12 @@
+1.1.5
+
+* RFE #27401
+*   FileOutputter default truncation is now set to false
+* Bug #27744 fixed
+*  Carlo Bertini reported NDC/GDC fail against Ruby 1.9 
+
 1.1.4
+
 * Fixed a few missed checkins from 1.1.3
 
 1.1.3
