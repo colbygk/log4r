@@ -16,5 +16,5 @@ require "log4r/NDC"
 require "log4r/MDC"
 
 module Log4r
-  Log4rVersion = [1, 1, 5].join '.'
+  Log4rVersion = [1, 1, 6].join '.'
 end
