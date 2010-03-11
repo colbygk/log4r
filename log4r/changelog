@@ -1,3 +1,10 @@
+1.1.6
+
+* Charles Strahan's contributions to integrate with chainsaw
+*  including formatter/log4jxmlformatter.rb and
+*  outputter/udpoutputter.rb
+* 
+
 1.1.5
 
 * RFE #27401
