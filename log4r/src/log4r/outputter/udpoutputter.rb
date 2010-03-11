@@ -27,7 +27,7 @@ module Log4r
 	@udpsock = UDPSocket.new
 	@udpsock.connect( @host, @port )
       rescue Exception => e
-	Logger.log_internal(-2) {
+	Logger.log_internal(ERROR) {
 	  "UDPOutputter failed to create UDP socket: #{e}"
 	}
 	Logger.log_internal {e}
@@ -41,9 +41,9 @@ module Log4r
     #######
 
     def write(data)
-      @udpsock.send(data)
+      @udpsock.send(data, 0)
     rescue Exception => e
-      Logger.log_internal(-2) {
+      Logger.log_internal(ERROR) {
 	"UDPOutputter failed to send data to #{@host}:#{@port}, #{e}"
       }
     end

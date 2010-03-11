@@ -5,6 +5,8 @@
 # Version:: $Id$
 
 require "log4r/formatter/formatter"
+
+require "rubygems"
 require "builder"
 
 module Log4r
@@ -37,7 +39,6 @@ module Log4r
                 end
               end
             end
-      puts xml 
       xml
     end
 
