@@ -13,20 +13,20 @@ module Log4r
   # See log4r/formatter/patternformatter.rb
   class PatternFormatter < BasicFormatter
   
-    # Arguments to sprintf keyed to directive letters
-    # %c - event short name
-    # %C - event fullname
-    # %d - date
-    # %g - Global Diagnostic Context (GDC)
-    # %t - trace
-    # %m - message
-    # %h - thread name
-    # %p - process ID aka PID
-    # %M - formatted message
-    # %l - Level in string form
-    # %x - Nested Diagnostic Context (NDC)
-    # %X - Mapped Diagnostic Context (MDC), syntax is "%X.key"
-    # %% - Insert a %
+    # Arguments to sprintf keyed to directive letters<br>
+    # %c - event short name<br>
+    # %C - event fullname<br>
+    # %d - date<br>
+    # %g - Global Diagnostic Context (GDC)<br>
+    # %t - trace<br>
+    # %m - message<br>
+    # %h - thread name<br>
+    # %p - process ID aka PID<br>
+    # %M - formatted message<br>
+    # %l - Level in string form<br>
+    # %x - Nested Diagnostic Context (NDC)<br>
+    # %X - Mapped Diagnostic Context (MDC), syntax is "%X{key}"<br>
+    # %% - Insert a %<br>
     DirectiveTable = {
       "c" => 'event.name',
       "C" => 'event.fullname',
