@@ -1,0 +1,2 @@
+rdoc --exclude *CVS* --exclude .*patch --exclude diff
+
