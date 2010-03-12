@@ -31,11 +31,9 @@ def get_exception(msg)
   end
 end
 
-NDC.push 1
-NDC.push "string"
-NDC.push ["an", "array"]
+NDC.push "saw test"
 
-#MDC.put "test", "windows"
+MDC.put "clientip", %q{10.33.33.33}
 
 def do_log(log)
     log.debug "This is a message with level DEBUG"
