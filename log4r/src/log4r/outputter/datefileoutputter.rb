@@ -54,12 +54,19 @@ module Log4r
         if not FileTest.directory?( _dirname)
           raise StandardError, "'#{_dirname}' must be a valid directory", caller
         end
+      end
+
+      _filename = (hash[:filename] or hash['filename'])
+      if _filename.nil?
         @filebase = File.basename( $0, '.rb') + ".log"
       else
         @filebase = File.basename((hash[:filename] or hash['filename'] or ""))
       end
-      hash['filename'] = File.join(_dirname,
-                    @filebase.sub(/(\.\w*)$/, "_#{@DateStamp}" + '\1'))
+
+      # Get rid of the 'nil' in the path
+      path = [_dirname, @filebase.sub(/(\.\w*)$/, "_#{@DateStamp}" + '\1')].compact
+      hash[:filename] = hash['filename'] = File.join(path)
+
       super(_name, hash)
     end
 
