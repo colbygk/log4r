@@ -1,3 +1,7 @@
+1.1.7
+
+* Change UPDOutputter to accept hash for :hostname and :port
+
 1.1.6
 
 * Charles Strahan's contributions to integrate with chainsaw

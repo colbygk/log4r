@@ -21,10 +21,11 @@ def run(cmd)
 end
 
 title = "#{Version} Log4r API"
-run "cd #{Src}; rdoc --op #{Docs} --template kilmer --main log4r.rb --title '#{title}'"
+run "cd #{Src}; rdoc --op #{Docs} --main log4r.rb --title '#{title}' --exclude CVS"
 
 # sub the version into the log4r_rb.html file
-html = IO.readlines(Docs+"/files/log4r_rb.html")
-f = File.open(Docs+"/files/log4r_rb.html", "w")
+html = IO.readlines(Docs+"/log4r_rb.html")
+f = File.open(Docs+"/log4r_rb.html", "w")
 f.write((html.join).gsub!('#{version}', Version))
 f.close
+run "cp ../bin/log4r-rdoc.css ../doc/rdoc/."
