@@ -3,7 +3,8 @@
 * Charles Strahan's contributions to integrate with chainsaw
 *  including formatter/log4jxmlformatter.rb and
 *  outputter/udpoutputter.rb
-* 
+* Bug #27819 fixed
+*  DateFileOutputter does not handle nil dirname correctly
 
 1.1.5
 
