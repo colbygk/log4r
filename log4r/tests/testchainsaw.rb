@@ -14,7 +14,7 @@ log4r.outputters = StdoutOutputter.new 'log4r'
 log4r.level = ALL
 
 formatter = Log4jXmlFormatter.new
-outputter = UDPOutputter.new 'udp', "localhost", 8071
+outputter = UDPOutputter.new 'udp', :hostname => "localhost", :port => 8071
 outputter.formatter = formatter
 
 mylog = Logger.new 'mylog'
