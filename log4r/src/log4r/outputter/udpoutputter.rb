@@ -15,10 +15,10 @@ module Log4r
     attr_reader :host, :port
     attr_accessor :udpsock
      
-    def initialize(_name, _host, _port, hash={})
+    def initialize(_name, hash={})
       super(_name, hash)
-      @host = _host
-      @port = _port
+      @host = hash[:hostname]
+      @port = hash[:port]
 
       begin 
 	Logger.log_internal {
