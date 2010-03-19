@@ -11,7 +11,7 @@ Contributors:      Leon Torres               Original Maintainer
                    Andreas Hund              YamlConfigurator
                    Jamis Buck                log4r.gemspec
                    Charles Strahan           log4jxml/chainsaw integration
-Homepage:          http://rubyforge.org/projects/log4r/
+Homepage:          http://log4r.rubyforge.org/
 Download:          http://rubyforge.org/frs/?group_id=203
 
 Summary
@@ -42,13 +42,13 @@ More Info
 * Comprehensive examples are provided in examples/ and can be run right away
 
 * Log4r homepage: doc/index.html
-  Online: http://log4r.sourceforge.net/
+  Online: http://log4r.rubyforge.org/
 
 * Manual: doc/manual.html
-  Online: http://rubyforge.org/docman/?group_id=203
+  Online: http://log4r.rubyforge.org/manual.html
   
 * RDoc API reference: doc/rdoc/index.html 
-  Online: http://rubyforge.org/docman/index.php?group_id=203
+  Online: http://log4r.rubyforge.org/rdoc/index.html
   
 * The changelog
 
@@ -89,4 +89,3 @@ code yourself. It's well documented and written in Ruby. :)
 Also, try out the bug/request tracking system at 
 http://rubyforge.org/tracker/?group_id=203
 
-Version: $Id$
