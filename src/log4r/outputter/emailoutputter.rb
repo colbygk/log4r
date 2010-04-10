@@ -101,9 +101,12 @@ module Log4r
         "#{msg}"
 
       ### send email
-      begin Net::SMTP.start(*@params) do |smtp|
-        smtp.sendmail(rfc822msg, @from, @to)
-      end
+      begin
+        smtp = Net::SMTP.new(@server, @port)
+        smtp.enable_starttls_auto if smtp.respond_to?(:enable_starttls_auto)
+        smtp.start(@domain, @acct, @passwd, @authtype) do |smtp|
+          smtp.sendmail(rfc822msg, @from, @to)
+        end
       rescue Exception => e
         Logger.log_internal(-2) {
           "EmailOutputter '#{@name}' couldn't send email!"
