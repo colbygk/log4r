@@ -78,6 +78,11 @@ module Log4r
       @level
     end
 
+    # Return array of defined levels.
+    def levels
+      LNAMES
+    end
+
     # Set the additivity of the logger dynamically. True or false.
     def additive=(_additive)
       @additive = _additive
