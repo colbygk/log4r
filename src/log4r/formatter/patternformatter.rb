@@ -33,6 +33,7 @@ module Log4r
       "d" => 'format_date',
       "g" => 'Log4r::GDC.get()',
       "t" => '(event.tracer.nil? ? "no trace" : event.tracer[0])',
+      "T" => '(event.tracer.nil? ? "no trace" : event.tracer[0].split(File::SEPARATOR)[-1])',
       "m" => 'event.data',
       "h" => '(Thread.current[:name] or Thread.current.to_s)',
       "p" => 'Process.pid.to_s',
@@ -52,7 +53,7 @@ module Log4r
     # * $5 is the directive letter
     # * $6 is the stuff after the directive or "" if not applicable
   
-    DirectiveRegexp = /([^%]*)((%-?\d*(\.\d+)?)([cCdgtmhpMlxX%]))?(\{.+?\})?(.*)/
+    DirectiveRegexp = /([^%]*)((%-?\d*(\.\d+)?)([cCdgtTmhpMlxX%]))?(\{.+?\})?(.*)/
   
     # default date format
     ISO8601 = "%Y-%m-%d %H:%M:%S"
