@@ -1,3 +1,10 @@
+1.1.8
+
+* Add %T to formatting, allowing for truncated file path,
+*  This runs opposite to the c vs C patterns
+* Added example to illustrate logger inheritence rules
+* Added "levels" method to Logger
+
 1.1.7
 
 * Change UPDOutputter to accept hash for :hostname and :port
