@@ -11,7 +11,7 @@ class TestPatternFormatter < Test::Unit::TestCase
     o = StdoutOutputter.new 'test' 
     l.add o
     assert_nothing_raised { 
-    f = PatternFormatter.new :pattern=> "%d %6l [%C]%c %% %-40.30M"
+    f = PatternFormatter.new :pattern=> "'%t' T-'%T' %d %6l [%C]%c %% %-40.30M"
                              #:date_pattern=> "%Y"
                              #:date_method => :usec
     Outputter['test'].formatter = f
