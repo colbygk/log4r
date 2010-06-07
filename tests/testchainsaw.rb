@@ -1,4 +1,4 @@
-$: << File.join("..", "src")
+$: << File.join("..", "lib")
 
 require 'log4r'
 require 'log4r/staticlogger'

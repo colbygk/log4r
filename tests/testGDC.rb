@@ -1,4 +1,4 @@
-$: << File.join("..","src")
+$: << File.join("..","lib")
 require "test/unit"
 require "log4r"
 include Log4r
