@@ -1,6 +1,6 @@
 Release checklist:
 
-* DON'T FORGET: change install.rb when new src/ files are added
+* DON'T FORGET: change install.rb when new lib/ files are added
 * Update the log4r.gemspec
 * Update the changelog
 * Update the README

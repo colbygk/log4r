@@ -67,7 +67,7 @@ run "ruby makehtml.rb #{$dotver} #{$projdir}/doc"
 puts "makedist.rb: runing prune.rb"
 run "ruby prune.rb #{$projdir}"
 puts "makedist.rb: running makerdoc.rb"
-run "ruby makerdoc.rb #{$dotver} #{$projdir}/src #{$projdir}/doc"
+run "ruby makerdoc.rb #{$dotver} #{$projdir}/lib #{$projdir}/doc"
 puts "makedist.rb: removing #{$projdir}/bin"
 run "rm -rf #{$projdir}/bin"
 

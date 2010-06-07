@@ -60,7 +60,7 @@ files = %w-
 -
 
 # the acual gruntwork
-Dir.chdir("src")
+Dir.chdir("lib")
 File::safe_unlink *deprecated.collect{|f| File.join($sitedir, f.split(/\//))}
 files.each {|f| 
   File::install(f, File.join($sitedir, *f.split(/\//)), 0644, true)

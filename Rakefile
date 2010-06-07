@@ -16,7 +16,7 @@ EMAIL = "colby@astro.berkeley.edu"
 HOMEPAGE = %q{http://log4r.rubyforge.org}
 SUMMARY = "Log4r, logging framework for ruby"
 DESCRIPTION = "See also: http://logging.apache.org/log4j"
-DIRS = [ "doc/**/*", "examples/**/*", "src/**/*", "tests/**/*" ]
+DIRS = [ "doc/**/*", "examples/**/*", "lib/**/*", "tests/**/*" ]
 
 spec = spec = Gem::Specification.new do |s|
   s.name = GEM
@@ -34,7 +34,7 @@ spec = spec = Gem::Specification.new do |s|
   # Uncomment this to add a dependency
   # s.add_dependency "foo"
 
-  s.require_path = 'src'
+  s.require_path = 'lib'
   s.files = %w(LICENSE LICENSE.LGPLv3 README INSTALL Rakefile TODO)
   s.files = s.files + DIRS.collect do |dir|
     Dir.glob( dir )

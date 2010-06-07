@@ -27,7 +27,7 @@ Testing RDoc
 ------------
 Either run bin/makerdoc.rb directly or,
 
-  cd src/
+  cd lib/
   rdoc --op /tmp/rdoc --template kilmer --main log4r.rb
 
 
