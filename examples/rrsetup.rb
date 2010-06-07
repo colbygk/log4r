@@ -1,7 +1,7 @@
 # This is a real config file used by a game that I'm working on
 # The XML config file is called rrconfig.xml
 
-$: << File.join('..','src')
+$: << File.join('..','lib')
 require 'log4r'
 require 'log4r/configurator'
 include Log4r

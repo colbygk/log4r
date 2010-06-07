@@ -1,7 +1,7 @@
 # Now, for something more complicted
 # Let's pretend this is the global config file for our app
 
-$: << File.join('..','src')
+$: << File.join('..','lib')
 require "log4r"
 
 include Log4r                   # include Log4r to make things simple

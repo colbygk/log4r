@@ -1,5 +1,5 @@
 # Here's how to start using log4r right away
-$: << File.join('..','src')                   # path if log4r not installed
+$: << File.join('..','lib')                   # path if log4r not installed
 require "log4r"
 
 Log = Log4r::Logger.new("outofthebox")        # create a logger

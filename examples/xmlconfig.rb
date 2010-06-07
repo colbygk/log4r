@@ -1,7 +1,7 @@
 # This is like moderateconfig.rb, but using an XML config
 # please look at moderate.xml
 
-$: << '../src'
+$: << '../lib'
 
 require 'log4r'
 require 'log4r/configurator'

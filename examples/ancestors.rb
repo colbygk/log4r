@@ -1,4 +1,4 @@
-$: << File.join("..","src")
+$: << File.join("..","lib")
 
 # This file demonstrates how inheritence works in log4r
 #

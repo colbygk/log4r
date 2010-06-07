@@ -1,6 +1,6 @@
 # Log4r can be configured using YAML. This example uses log4r_yaml.yaml
 
-$: << File.join('..','src') # path if log4r is not installed
+$: << File.join('..','lib') # path if log4r is not installed
 require 'log4r'
 require 'log4r/yamlconfigurator'
 # we use various outputters, so require them, otherwise config chokes

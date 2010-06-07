@@ -1,6 +1,6 @@
 # How to use RollingFileOutputter
 
-$: << "../src"
+$: << "../lib"
 require 'log4r'
 include Log4r
 

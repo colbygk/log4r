@@ -6,7 +6,7 @@
 # or have them all default to LOG_INFO
 # This file provides an example
 
-$: << '../src'
+$: << '../lib'
 
 require 'log4r'
 require 'log4r/configurator'

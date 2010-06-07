@@ -3,7 +3,7 @@
 # Log4r allows you to rename the levels and their corresponding methods
 # in a painless way. This file provides and example
 
-$: << '../src'
+$: << '../lib'
 
 require 'log4r'
 require 'log4r/configurator'

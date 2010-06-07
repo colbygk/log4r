@@ -1,6 +1,6 @@
 # How to use RemoteOutputter. See logserver.rb first.
 
-$: << File.join('..','src')
+$: << File.join('..','lib')
 require 'log4r'
 require 'log4r/outputter/remoteoutputter'
 include Log4r

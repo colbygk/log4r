@@ -2,7 +2,7 @@
 # Where we configure just one logger and make it log to a file and stdout.
 
 # add the path to log4r if it isn't installed in a ruby path
-$: << File.join('..','src')
+$: << File.join('..','lib')
 require "log4r"
 
 # First things first, get the root logger and set its level to WARN.

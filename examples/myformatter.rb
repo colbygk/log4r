@@ -1,6 +1,6 @@
 # try out a custom formatter
 
-$: << '../src'
+$: << '../lib'
 
 require "log4r"
 
