@@ -1,9 +1,20 @@
 1.1.8
 
+* Move files from src directory to lib directory, following
+*  convential ruby gems.
 * Add %T to formatting, allowing for truncated file path,
 *  This runs opposite to the c vs C patterns
 * Added example to illustrate logger inheritence rules
+*  see: examples/ancestors.rb
 * Added "levels" method to Logger
+* Incorporating STARTTLS support via github user Nitay Joffe
+*  commit:d7a441bc61c818c85f63a23d844ccf4627cdd63f
+* Modifications to behavior of rollingfileoutputter.rb by
+*  David Siegal.  Can automatically purge older files,
+*  intelligently picks up appending where left off, or
+*  deletes existing log files and starts at the beginning
+*  again (aka name000001.log)
+
 
 1.1.7
 
