@@ -5,6 +5,8 @@
 require "log4r/outputter/fileoutputter"
 require "log4r/staticlogger"
 
+require 'fileutils'
+
 module Log4r
 
   # RollingFileOutputter - subclass of FileOutputter that rolls files on size
