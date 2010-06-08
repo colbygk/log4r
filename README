@@ -11,8 +11,8 @@ Contributors:      Leon Torres               Original Maintainer
                    Andreas Hund              YamlConfigurator
                    Jamis Buck                log4r.gemspec
                    Charles Strahan           log4jxml/chainsaw integration
-		   Nitay Joffe               STARTTLS
-		   David Siegal              Smart updates to RollingFileOutputter
+                   Nitay Joffe               STARTTLS
+                   David Siegal              Smart updates to RollingFileOutputter
 Homepage:          http://log4r.rubyforge.org/
 Download:          http://rubyforge.org/frs/?group_id=203
 
