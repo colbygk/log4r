@@ -7,13 +7,23 @@
 * Added example to illustrate logger inheritence rules
 *  see: examples/ancestors.rb
 * Added "levels" method to Logger
-* Incorporating STARTTLS support via github user Nitay Joffe
-*  commit:d7a441bc61c818c85f63a23d844ccf4627cdd63f
+* Incorporating STARTTLS support via Nitay Joffe
+*  wrapping change with a check for ruby < 1.8.6 to require
+*  'smtp_tls' and handle different calling characteristics
+*  Dan Sketcher submitted an almost identical patch a month
+*  later.
+*  Added examples/gmail.yaml and examples/gmail.rb to
+*  illustrate usage.
 * Modifications to behavior of rollingfileoutputter.rb by
 *  David Siegal.  Can automatically purge older files,
 *  intelligently picks up appending where left off, or
 *  deletes existing log files and starts at the beginning
-*  again (aka name000001.log)
+*  again.
+* Fix for bug #28021 - major change to how Log4r
+*  handles thread synchronization, now using
+*  Monitor class instead of directly using Mutex.
+*  Yann Golanski reported what appeared to be a deadlock
+*  related to Mutex not being re-entrant.
 
 
 1.1.7
