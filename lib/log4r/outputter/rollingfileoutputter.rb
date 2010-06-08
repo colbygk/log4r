@@ -153,7 +153,7 @@ module Log4r
         @datasize = 0
       else
         @start_time = File.ctime(@filename)
-        @datasize = File.size?(@filename)
+        @datasize = File.size?(@filename) || 0 # File.size? returns nil even if the file exists but is empty; we convert it to 0.
       end
       @out = File.new(@filename, mode)
       Logger.log_internal {"File #{@filename} opened with mode #{mode}"}
