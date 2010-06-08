@@ -5,8 +5,10 @@ require "log4r/base"
 require "log4r/repository"
 require "log4r/logger"
 
+require 'monitor'
+
 module Log4r
-class Outputter
+class Outputter < Monitor
 
   class OutputterFactory #:nodoc:
     include Singleton

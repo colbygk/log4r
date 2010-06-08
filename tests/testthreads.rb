@@ -8,16 +8,25 @@
 # test.
 #
 
-class TestThreads < TestCase
+
+$: << File.join("..","lib")
+
+require "test/unit"
+require 'log4r'
+include Log4r
+
+class TestThreads < Test::Unit::TestCase
+
+  NUMTHREADS = 2000
+
   def test_threads
-    NUM_THREADS=2000
-    assert_no_exception
-    {
-      (0..NUM_THREADS).map do |i|
-      Thread.new do
-	Thread.current[:logger] = Log4r::Logger.new "Hello #{i}"
-      end
-      end.each { |thr| thr.join }
-    }
+
+    assert_nothing_raised do
+      (0..NUMTHREADS).map do |i|
+        Thread.new do
+	  Thread.current[:logger] = Log4r::Logger.new "Hello #{i}"
+	end
+      end.each do |thr| thr.join end
+    end
   end
 end

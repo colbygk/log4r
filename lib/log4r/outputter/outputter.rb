@@ -11,9 +11,11 @@ require "log4r/outputter/outputterfactory"
 require "log4r/formatter/formatter"
 require "log4r/staticlogger"
 
+require 'monitor'
+
 module Log4r
 
-  class Outputter
+  class Outputter < Monitor
     attr_reader :name, :level, :formatter
     @@outputters = Hash.new
 
@@ -24,6 +26,7 @@ module Log4r
     # [<tt>:formatter</tt>]   A Formatter. Defaults to DefaultFormatter
 
     def initialize(_name, hash={})
+      super()
       if _name.nil?
         raise ArgumentError, "Bad arguments. Name and IO expected.", caller
       end
@@ -85,7 +88,6 @@ module Log4r
     # Validates the common hash arguments. For now, that would be
     # +:level+, +:formatter+ and the string equivalents
     def validate_hash(hash)
-      @mutex = Mutex.new
       # default to root level and DefaultFormatter
       if hash.empty?
         self.level = Logger.root.level
@@ -125,7 +127,7 @@ module Log4r
     def write(data)
     end
 
-    def synch; @mutex.synchronize { yield } end
+    def synch; synchronize { yield } end
     
   end
 

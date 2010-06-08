@@ -1,7 +1,7 @@
 # :nodoc:
 module Log4r
 
-  class Outputter
+  class Outputter < Monitor
     # Retrieve an outputter.
     def self.[](name)
     out = @@outputters[name]
