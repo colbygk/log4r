@@ -1,0 +1,95 @@
+
+
+purpose    : Test Mailing to Gmail
+description: Provides configuration info for login to email servers via STARTTLS, e.g. gmail.com
+say        : gmail is nice
+
+---
+# *** YAML2LOG4R ***
+log4r_config:
+  # define all pre config ...
+  pre_config:
+    custom_levels:
+      - DEB
+      - INF
+      - PRT
+      - WRN
+      - ERR
+      - FAT
+    global:
+      level: DEB
+    root  :
+      level: DEB
+    parameters:
+      - name   : x
+        value  : aaa
+      - name   : y
+        value  : bbb
+
+  # define all loggers ...
+  loggers:
+    - name      : mylogger
+      level     : DEB
+      additive  : 'false'
+      trace     : 'false'      
+      outputters:
+        - stderr
+        - logfile 
+        - email    
+
+    - name      :  yourlogger
+      level     : INF 
+      outputters: 
+        - stderr
+        - logfile 
+
+  # define all outputters (incl. formatters)      
+  outputters:
+    - type     : StderrOutputter
+      name     : stderr 
+      level    : DEB
+      only_at  :
+        - INF
+        - WRN
+        - FAT
+      formatter:
+        date_pattern: '%y%m%d %H:%M:%S'
+        pattern     : '%d %l: %m '
+        type        : PatternFormatter
+
+    - type        : DateFileOutputter
+      name        : logfile
+      level       : DEB
+      date_pattern: '%Y%m%d'
+      trunc       : 'false'
+      dirname     : "#{HOME}/logs"
+      formatter   :
+        date_pattern: '%y%m%d %H:%M:%S'
+        pattern     : '%d %l: %m'
+        type        : PatternFormatter
+  
+    - type        : EmailOutputter
+      name        : email
+      level       : FAT
+      tls         : 'true'
+      domain      : gmail.com
+      server      : smtp.gmail.com
+      port        : '587'
+      subject     : 'Message from testing:'
+      from        : INSERT_YOUR_FROM_ADDRESS
+      to          : INSERT_YOUR_TO_ADDRESS
+      acct        : INSERT_YOUR_GMAIL_ACCOUNTNAME
+      passwd      : INSERT_YOUR_GMAIL_PASSWORD
+      authtype    : plain
+      immediate_at: FAT
+      formatfirst : 'true'
+      formatter   :
+        date_pattern: '%y%m%d %H:%M:%S'
+        pattern     : '%d %l: %m'
+        type        : PatternFormatter
+        
+---
+purpose    : TestB
+description: This is the last YAML doc
+say        : Bye
+
