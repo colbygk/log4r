@@ -17,7 +17,7 @@ include Log4r
 
 class TestThreads < Test::Unit::TestCase
 
-  NUMTHREADS = 2000
+  NUMTHREADS = 1000
 
   def test_threads
 
@@ -25,6 +25,9 @@ class TestThreads < Test::Unit::TestCase
       (0..NUMTHREADS).map do |i|
         Thread.new do
 	  Thread.current[:logger] = Log4r::Logger.new "Hello #{i}"
+	  Thread.current[:logger].outputters = [StdoutOutputter.new "log4r#{i}"]
+	  Thread.current[:logger].outputters.each { |i| i.flush }
+	  Thread.current.exit()
 	end
       end.each do |thr| thr.join end
     end
