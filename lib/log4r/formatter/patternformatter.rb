@@ -52,6 +52,7 @@ module Log4r
     # * $4 is the .# match which we don't use (it's there to match properly)
     # * $5 is the directive letter
     # * $6 is the stuff after the directive or "" if not applicable
+    # * $7 is the remainder
   
     DirectiveRegexp = /([^%]*)((%-?\d*(\.\d+)?)([cCdgtTmhpMlxX%]))?(\{.+?\})?(.*)/
   
@@ -117,9 +118,19 @@ module Log4r
         # deal with the directive by inserting a %#.#s where %#.# is copied
         # directy from the match
         ebuff << match[3] + "s"
+
 	if ( match[5] == 'X' && match[6] != nil ) then
+
+	  # MDC matches, need to be able to handle String, Symbol or Number
+	  match6sub = /[\{\}\"]/
+	  mdcmatches = match[6].match /\{(:?)(\d*)(.*)\}/
+
+	  if ( mdcmatches[1] == "" && mdcmatches[2] == "" )
+	    match6sub = /[\{\}]/ # don't remove surrounding "'s if String
+	  end
+	  
 	  args <<
-	  DirectiveTable[match[5]].gsub("DTR_REPLACE", match[6]).gsub(/[\{\}]/,'')
+	    DirectiveTable[match[5]].gsub("DTR_REPLACE", match[6]).gsub(match6sub,'')
 	else
 	  args << DirectiveTable[match[5]]  # cull the data for our argument list
 	end
