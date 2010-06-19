@@ -1,3 +1,8 @@
+1.1.9
+
+* Make MDC support String, Symbol and Number as hash keys
+* ...
+
 1.1.8
 
 * Move files from src directory to lib directory, following
