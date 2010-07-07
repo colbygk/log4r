@@ -11,6 +11,7 @@
 # real	2m35.859s user	2m33.951s sys	0m1.224s
 #
 
+require 'monitor'
 require "singleton"
 
 module Log4r
@@ -23,6 +24,7 @@ module Log4r
     # let me know.
 
     class Repository # :nodoc:
+      extend MonitorMixin
       include Singleton
       attr_reader :loggers
 
@@ -31,13 +33,13 @@ module Log4r
       end
 
       def self.[](fullname)
-	Thread.exclusive do
+	self.synchronize do
 	  instance.loggers[fullname]
 	end # exclusive
       end
 
       def self.[]=(fullname, logger)
-	Thread.exclusive do
+	self.synchronize do
 	  instance.loggers[fullname] = logger
 	end # exclusive
       end
@@ -46,7 +48,7 @@ module Log4r
       def self.all_children(parent)
 	# children have the parent name + delimiter in their fullname
 	daddy = parent.name + Private::Config::LoggerPathDelimiter
-	Thread.exclusive do
+	self.synchronize do
 	  for fullname, logger in instance.loggers
 	    yield logger if parent.is_root? || fullname =~ /#{daddy}/
 	  end
@@ -57,7 +59,7 @@ module Log4r
       # an existing inheritance tree. this method
       # updates the children of a logger to link their new parent
       def self.reassign_any_children(parent)
-	Thread.exclusive do
+	self.synchronize do
 	  for fullname, logger in instance.loggers
 	    next if logger.is_root?
 	    logger.parent = parent if logger.path =~ /^#{parent.fullname}$/
@@ -70,7 +72,7 @@ module Log4r
       def self.find_ancestor(path)
 	arr = path.split Log4rConfig::LoggerPathDelimiter
 	logger = nil
-	Thread.exclusive do
+	self.synchronize do
 	  while arr.size > 0 do
 	    logger = Repository[arr.join(Log4rConfig::LoggerPathDelimiter)]
 	    break unless logger.nil?
