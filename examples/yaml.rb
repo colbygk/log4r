@@ -6,9 +6,9 @@ require 'log4r/yamlconfigurator'
 # we use various outputters, so require them, otherwise config chokes
 require 'log4r/outputter/datefileoutputter'
 require 'log4r/outputter/emailoutputter'
-include Log4r
+require 'log4r/outputter/scribeoutputter'
 
-cfg = YamlConfigurator # shorthand
+cfg = Log4r::YamlConfigurator # shorthand
 cfg['HOME'] = '.'      # the only parameter in the YAML, our HOME directory
 
 # load the YAML file with this
@@ -25,6 +25,6 @@ def do_logging(log)
 end
 
 # turn off the email outputter
-Outputter['email'].level = OFF
+Log4r::Outputter['email'].level = Log4r::OFF
 # the other two outputters log to stderr and a timestamped file in ./logs
-do_logging( Logger['mylogger'])
+do_logging( Log4r::Logger['mylogger'])

@@ -7,7 +7,6 @@
 
 require "log4r/outputter/fileoutputter"
 require "log4r/outputter/consoleoutputters"
-require "log4r/outputter/scribeoutputter"
 require "log4r/outputter/staticoutputter"
 require "log4r/outputter/rollingfileoutputter"
 require "log4r/formatter/patternformatter"
