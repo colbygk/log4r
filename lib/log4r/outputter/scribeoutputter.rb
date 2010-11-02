@@ -19,7 +19,17 @@ module Log4r
     private
 
     def write(data)
-      @client.log(data.strip)
+      begin
+        @client.log(data)
+      rescue ScribeThrift::Client::TransportException => e
+        Logger.log_internal(-2) {
+          "Caught TransportException, is the scribe server alive?"
+        }
+      rescue ThriftClient::NoServersAvailable => e
+        Logger.log_internal(-2) {
+          "No scribe servers are available!"
+        }
+      end
     end
   end
 end
