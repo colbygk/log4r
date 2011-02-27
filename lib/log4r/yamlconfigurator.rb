@@ -152,7 +152,7 @@ module Log4r
     def self.decode_hash_params(ph)
       case ph
       when Hash
-        Hash[ph.map{|k,v| [k, self.decode_hash_params(v)]}]
+        ph.inject({}){|a,(k,v)| a[k] = self.decode_hash_params(v); a}
       when Array
         ph.map{|v| self.decode_hash_params(v)}
       when String
