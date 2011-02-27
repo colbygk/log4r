@@ -119,13 +119,13 @@ module Log4r
       end
 
       formatter = decode_formatter( op['formatter'])
-      # build the eval string
-      buff = "Outputter[name] = #{type}.new name"
-      buff += ",:level=>#{LNAMES.index(level)}" unless level.nil?
-      buff += ",:formatter=>formatter" unless formatter.nil?
-      params = decode_hash_params( op)
-      buff += "," + params.join(',') if params.size > 0
-      begin eval buff
+
+      opts = {}
+      opts[:level] = LNAMES.index(level) unless level.nil?
+      opts[:formatter] = formatter unless formatter.nil?
+      opts.merge!(decode_hash_params(op))
+      begin
+        Outputter[name] = Log4r.const_get(type).new name, opts
       rescue Exception => ae
         raise ConfigError, 
         "Problem creating outputter: #{ae.message}", caller[1..-3]
@@ -138,8 +138,8 @@ module Log4r
       return nil if fo.nil?
       type = fo['type'] 
       raise ConfigError, "Formatter missing type", caller[1..-4] if type.nil?
-      buff = "#{type}.new " + decode_hash_params( fo).join(',')
-      begin return eval( buff)
+      begin
+        return Log4r.const_get(type).new(decode_hash_params(fo))
       rescue Exception => ae
         raise ConfigError,
         "Problem creating outputter: #{ae.message}", caller[1..-4]
@@ -149,23 +149,25 @@ module Log4r
     ExcludeParams = %w{formatter level name type only_at}
 
     # Does the fancy parameter to hash argument transformation
-    def self.decode_hash_params( ph)
-      buff = []
-      ph.each{ |name, value| 
-        next if ExcludeParams.include? name
-        buff << ":" + name + "=>" + paramsub( value)
-      }
-      buff
+    def self.decode_hash_params(ph)
+      case ph
+      when Hash
+        Hash[ph.map{|k,v| [k, self.decode_hash_params(v)]}]
+      when Array
+        ph.map{|v| self.decode_hash_params(v)}
+      when String
+        self.paramsub(ph)
+      else
+        ph
+      end
     end
-    
+
     # Substitues any #{foo} in the YAML with Parameter['foo']
-    def self.paramsub( str)
-      return nil if str.nil?
-      return nil if str.class != String
+    def self.paramsub(str)
       @@params.each {|param, value|
-        str.sub!( '#{' + param + '}', value)
+        str = str.sub("\#{#{param}}", value)
       }
-      "'" + str + "'"
+      str
     end
 
     def self.decode_logger( lo)
