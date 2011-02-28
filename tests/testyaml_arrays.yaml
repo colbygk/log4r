@@ -7,14 +7,14 @@ log4r_config:
       additive  : 'false'
       trace     : 'false'      
       outputters:
-        - stderr
+        - testyaml
 
   # define all outputters (incl. formatters)      
   outputters:
-    - type     : StderrOutputter
-      name     : stderr 
+    - type     : TestYamlOutputter
+      name     : testyaml 
       level    : INFO
-      recipients:
+      array_param:
         - fred@foo.com
         - barney@foo.com
         - 'wilma@#{CUSTOM_DOMAIN}'
