@@ -1,0 +1,22 @@
+log4r_config:
+
+  # define all loggers ...
+  loggers:
+    - name      : mylogger
+      level     : INFO
+      additive  : 'false'
+      trace     : 'false'      
+      outputters:
+        - stderr
+
+  # define all outputters (incl. formatters)      
+  outputters:
+    - type     : StderrOutputter
+      name     : stderr 
+      level    : INFO
+      crash    : "'; raise Exception #"
+      formatter:
+        date_pattern: '%y%m%d %H:%M:%S'
+        pattern     : '%d %l: %m '
+        type        : PatternFormatter
+

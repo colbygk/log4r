@@ -1,0 +1,25 @@
+log4r_config:
+
+  # define all loggers ...
+  loggers:
+    - name      : mylogger
+      level     : INFO
+      additive  : 'false'
+      trace     : 'false'      
+      outputters:
+        - testyaml
+
+  # define all outputters (incl. formatters)      
+  outputters:
+    - type     : TestYamlOutputter
+      name     : testyaml 
+      level    : INFO
+      array_param:
+        - fred@foo.com
+        - barney@foo.com
+        - 'wilma@#{CUSTOM_DOMAIN}'
+      formatter:
+        date_pattern: '%y%m%d %H:%M:%S'
+        pattern     : '%d %l: %m '
+        type        : PatternFormatter
+
