@@ -17,8 +17,8 @@ module Log4r
      
     def initialize(_name, hash={})
       super(_name, hash)
-      @host = hash[:hostname]
-      @port = hash[:port]
+      @host = (hash[:hostname] or hash["hostname"])
+      @port = (hash[:port] or hash["port"])
 
       begin 
 	Logger.log_internal {
