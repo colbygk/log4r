@@ -1,8 +1,4 @@
-$: << File.join('..','lib') # path if log4r is not installed
-require "test/unit"
-require 'log4r'
-require 'log4r/yamlconfigurator'
-include Log4r
+require 'test_helper'
 
 # Define a custom outputter that allows arrays in configuration hash
 module Log4r
@@ -17,7 +13,8 @@ module Log4r
 end
 
 
-class TestYaml < Test::Unit::TestCase
+class TestYaml < TestCase
+  include Log4r
 
   def setup
     @cfg = YamlConfigurator # shorthand

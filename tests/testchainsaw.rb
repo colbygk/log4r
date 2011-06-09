@@ -1,10 +1,4 @@
-$: << File.join("..", "lib")
-
-require 'log4r'
-require 'log4r/staticlogger'
-require 'log4r/formatter/log4jxmlformatter'
-require 'log4r/outputter/udpoutputter'
-require 'log4r/outputter/consoleoutputters'
+require 'test_helper'
 
 include Log4r
 

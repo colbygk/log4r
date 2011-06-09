@@ -1,9 +1,7 @@
-$: << File.join("..","lib")
-require "test/unit"
-require "log4r"
-include Log4r
+require 'test_helper'
 
-class TestNDC < Test::Unit::TestCase
+class TestNDC < TestCase
+  include Log4r
 
   def test_ndc_remove_push
     NDC.remove()

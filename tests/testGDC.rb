@@ -1,9 +1,7 @@
-$: << File.join("..","lib")
-require "test/unit"
-require "log4r"
-include Log4r
+require 'test_helper'
 
-class TestGDC < Test::Unit::TestCase
+class TestGDC < TestCase
+  include Log4r
 
   def test_gdc_default
     assert(GDC.get() == "testGDC.rb", "Expected 'testGDC.rb' got '#{GDC.get()}'" )
