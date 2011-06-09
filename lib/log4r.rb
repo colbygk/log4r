@@ -5,6 +5,7 @@
 # Author::      Leon Torres
 # Version::     $Id$
 
+require 'log4r/version'
 require "log4r/outputter/fileoutputter"
 require "log4r/outputter/consoleoutputters"
 require "log4r/outputter/staticoutputter"
