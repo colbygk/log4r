@@ -1,7 +1,11 @@
 # -*- encoding: utf-8 -*-
 $:.push File.expand_path("../lib", __FILE__)
-require 'rake'
 require 'log4r/version'
+
+# Removed dependency on rake because of error when running `bundle install --deployment`
+#   There was a LoadError while evaluating log4r.gemspec:
+#     no such file to load -- rake from
+#     vendor/bundle/ruby/1.8/bundler/gems/log4r/log4r.gemspec:3
 
 Gem::Specification.new do |gem|
   # gem is a Gem::Specification... see http://docs.rubygems.org/read/chapter/20 for more options
@@ -14,7 +18,7 @@ Gem::Specification.new do |gem|
   gem.authors = ['Colby Gutierrez-Kraybill']
   gem.bindir = 'bin'
   gem.test_files = Dir.glob("tests/**/*")
-  gem.files = FileList[ "doc/**/*", "examples/**/*", "lib/**/*" ]
+  gem.files = Dir['doc/**/*'] + Dir['examples/**/*'] + Dir['lib/**/*']
 
   gem.add_dependency "builder", [">= 2.0.0"]
   gem.add_development_dependency "bundler", [">= 1.0.0"]
