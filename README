@@ -8,6 +8,7 @@ Maintainer:        Colby Gutierrez-Kraybill
 Contributors:      Leon Torres               Original Maintainer
                    Martain Stannard          RollingFileOutputter
                    Steve Lumos               SyslogOutputter
+                   Mark Lewandowski          ScribeOutputter
                    Andreas Hund              YamlConfigurator
                    Jamis Buck                log4r.gemspec
                    Charles Strahan           log4jxml/chainsaw integration

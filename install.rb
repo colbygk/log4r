@@ -51,6 +51,7 @@ files = %w-
  log4r/outputter/outputter.rb
  log4r/outputter/outputterfactory.rb
  log4r/outputter/remoteoutputter.rb
+ log4r/outputter/scribeoutputter.rb
  log4r/outputter/staticoutputter.rb
  log4r/outputter/syslogoutputter.rb
  log4r/formatter/formatter.rb

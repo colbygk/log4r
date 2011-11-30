@@ -10,7 +10,7 @@ require 'date'
 require 'fileutils'
 
 GEM = "log4r"
-GEM_VERSION = "1.1.9"
+GEM_VERSION = "1.1.10"
 AUTHOR = "Colby Gutierrez-Kraybill"
 EMAIL = "colby@astro.berkeley.edu"
 HOMEPAGE = %q{http://log4r.rubyforge.org}
@@ -32,7 +32,7 @@ spec = spec = Gem::Specification.new do |s|
   s.homepage = HOMEPAGE
 
   # Uncomment this to add a dependency
-  # s.add_dependency "foo"
+  s.add_dependency "scribe"
 
   s.require_path = 'lib'
   s.files = %w(LICENSE LICENSE.LGPLv3 README INSTALL Rakefile TODO)
