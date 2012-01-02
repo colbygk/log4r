@@ -1,16 +1,20 @@
-class MyFormatter1 < Formatter
+require 'test_helper'
+
+class MyFormatter1 < Log4r::Formatter
   def format(event)
     return "MyFormatter1\n"
   end
 end
 
-class MyFormatter2 < Formatter
+class MyFormatter2 < Log4r::Formatter
   def format(event)
     return "MyFormatter2\n"
   end
 end
 
 class TestLogger < TestCase
+  include Log4r
+
   def test_root
     l1 = Logger.root
     l2 = Logger['root']
@@ -21,8 +25,8 @@ class TestLogger < TestCase
     assert(l1.parent == nil, "Root's parent wasn't nil!")
   end
   def test_validation
-    assert_exception(ArgumentError) { Logger.new }
-    assert_no_exception { Logger.new('validate', nil) }
+    assert_raise(ArgumentError) { Logger.new }
+    assert_nothing_raised { Logger.new('validate', nil) }
   end
   def test_all_off
     l = Logger.new("create_method")
@@ -45,14 +49,14 @@ class TestLogger < TestCase
     StdoutOutputter.new('fake1')
     StdoutOutputter.new('fake2')
     a = Logger.new("add")
-    assert_exception(TypeError) { a.add 'bogus' }
-    assert_exception(TypeError) { a.add Class }
-    assert_exception(TypeError) { a.add 'fake1', Class }
-    assert_no_exception { a.add 'fake1', 'fake2' }
+    assert_raise(TypeError) { a.add 'bogus' }
+    assert_raise(TypeError) { a.add Class }
+    assert_raise(TypeError) { a.add 'fake1', Class }
+    assert_nothing_raised { a.add 'fake1', 'fake2' }
   end
   def test_repository
-    assert_exception(NameError) { Logger.get('bogusbogus') }
-    assert_no_exception { Logger['bogusbogus'] }
+    assert_raise(NameError) { Logger.get('bogusbogus') }
+    assert_nothing_raised { Logger['bogusbogus'] }
   end
   def test_heiarchy
     a = Logger.new("a")
@@ -79,7 +83,7 @@ class TestLogger < TestCase
     assert(d.path == "a", "path wasn't set properly")
     assert(d.level == a.level, "didn't inherit parent's level") 
     assert(d.parent == a, "parent wasn't what is expected")
-    assert_exception(ArgumentError) { Logger.new("::a") }
+    assert_raise(ArgumentError) { Logger.new("::a") }
   end
   def test_undefined_parents
     a = Logger.new 'has::no::real::parents::me'
@@ -130,7 +134,7 @@ class TestLogger < TestCase
     l = Logger.new 'logblocks'
     l.level = WARN
     l.add(Outputter.stdout)
-    assert_no_exception {
+    assert_nothing_raised {
       l.debug { puts "should not show up"; "LOGBLOCKS" }
       l.fatal { puts "should show up"; "LOGBLOCKS" }
       l.fatal { nil }

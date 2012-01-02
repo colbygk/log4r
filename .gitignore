@@ -1,0 +1,7 @@
+.project
+.pydevproject
+.buildpath
+pkg/
+tmp/
+Gemfile.lock
+fabfile.py*

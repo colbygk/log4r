@@ -1,16 +1,14 @@
-$: << File.join("..","lib")
-require "test/unit"
-require "log4r"
-include Log4r
+require 'test_helper'
 
+class TestPatternFormatter < TestCase
+  include Log4r
 
-class TestPatternFormatter < Test::Unit::TestCase
   def test_pattern
     l = Logger.new 'test::this::that'
     l.trace = true
-    o = StdoutOutputter.new 'test' 
+    o = StdoutOutputter.new 'test'
     l.add o
-    assert_nothing_raised { 
+    assert_nothing_raised {
     f = PatternFormatter.new :pattern=> "'%t' T-'%T' %d %6l [%C]%c %% %-40.30M"
                              #:date_pattern=> "%Y"
                              #:date_method => :usec
@@ -28,7 +26,7 @@ class TestPatternFormatter < Test::Unit::TestCase
   def test_ndc
     l = Logger.new 'test::this::that::other'
     l.trace = true
-    o = StdoutOutputter.new 'testy' 
+    o = StdoutOutputter.new 'testy'
     l.add o
     f = PatternFormatter.new :pattern=> "%d %6l [%C]%c {%x} %% %-40.30M"
                              #:date_pattern=> "%Y"
@@ -49,7 +47,7 @@ class TestPatternFormatter < Test::Unit::TestCase
   def test_gdc
     l = Logger.new 'test::this::that::other'
     l.trace = true
-    o = StdoutOutputter.new 'testy' 
+    o = StdoutOutputter.new 'testy'
     l.add o
     f = PatternFormatter.new :pattern=> "%d %6l [%C]%c {%g} %% %-40.30M"
                              #:date_pattern=> "%Y"
@@ -64,7 +62,7 @@ class TestPatternFormatter < Test::Unit::TestCase
   def test_mdc
     l = Logger.new 'test::this::that::other'
     l.trace = true
-    o = StdoutOutputter.new 'testy' 
+    o = StdoutOutputter.new 'testy'
     l.add o
     f = PatternFormatter.new :pattern=> "%d %6l [%C]%c {%X{user}} %% %-40.30M"
                              #:date_pattern=> "%Y"
