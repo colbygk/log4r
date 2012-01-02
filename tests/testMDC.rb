@@ -1,9 +1,7 @@
-$: << File.join("..","lib")
-require "test/unit"
-require "log4r"
-include Log4r
+require 'test_helper'
 
-class TestMDC < Test::Unit::TestCase
+class TestMDC < TestCase
+  include Log4r
 
   def test_multithread_copy
     Log4r::MDC.put("user","colbygk")
@@ -24,9 +22,9 @@ class TestMDC < Test::Unit::TestCase
     Log4r::MDC.put("string", "string")
     Log4r::MDC.put(5, "number")
     l = Logger.new 'test'
-    o = StdoutOutputter.new 'test' 
+    o = StdoutOutputter.new 'test'
     l.add o
-    assert_nothing_raised { 
+    assert_nothing_raised {
       f = PatternFormatter.new :pattern=> "%l user: %X{:user} %X{strng} %X{5}"
       Outputter['test'].formatter = f
       l.debug "And this?"

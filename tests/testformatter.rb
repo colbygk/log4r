@@ -1,7 +1,11 @@
+require 'test_helper'
+
 class TestFormatter < TestCase
+  include Log4r
+
   def test_creation
-    assert_no_exception { Formatter.new.format(3) }
-    assert_no_exception { DefaultFormatter.new }
+    assert_nothing_raised { Formatter.new.format(3) }
+    assert_nothing_raised { DefaultFormatter.new }
     assert_kind_of(Formatter, DefaultFormatter.new)
   end
   def test_simple_formatter
@@ -24,4 +28,4 @@ class TestFormatter < TestCase
     assert_match(b.format(event3), /ArgumentError/)
     assert_match(b.format(LogEvent.new(0,f,nil,[1,2,3])), /Array/)
   end
-end 
+end

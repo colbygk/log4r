@@ -1,10 +1,8 @@
-$: << File.join("..","lib")
-require "test/unit"
-require "log4r"
-include Log4r
+require 'test_helper'
 
+class TestOutputter < TestCase
+  include Log4r
 
-class TestOutputter < Test::Unit::TestCase
   def test_validation
     assert_raise(ArgumentError) { Outputter.new }
     assert_raise(ArgumentError) { Outputter.new 'fonda', :level=>-10}
@@ -55,13 +53,13 @@ class TestOutputter < Test::Unit::TestCase
     assert_raise(TypeError) { o.formatter = "bogus" }
     assert_raise(TypeError) { o.formatter = -3 }
     # the formatter should be preserved
-    assert(o.formatter.class == Formatter) 
+    assert(o.formatter.class == Formatter)
   end
   def test_file
     assert_raise(TypeError) { FileOutputter.new 'f' }
     assert_raise(TypeError) { FileOutputter.new('fa', :filename => DEBUG) }
     assert_raise(TypeError) { FileOutputter.new('fo', :filename => nil) }
-    assert_nothing_raised { 
+    assert_nothing_raised {
       FileOutputter.new('fi', :filename => './junk/tmp')
       FileOutputter.new('fum', :filename=>'./junk/tmp', :trunc => "true")
     }
@@ -80,11 +78,11 @@ class TestOutputter < Test::Unit::TestCase
     for mname in LNAMES
       next if mname == 'OFF' || mname == 'ALL'
       assert_respond_to(o, mname.downcase.to_sym, "Test respond to #{mname.to_s}")
-    end 
+    end
     return # cuz the rest is borked
     # we rely on BasicFormatter's inability to reference a nil Logger to test
     # the log methods. Everything from WARN to FATAL should choke.
-    event = LogEvent.new(nil, nil, nil, nil) 
+    event = LogEvent.new(nil, nil, nil, nil)
     assert_nothing_raised { o.debug event }
     assert_nothing_raised { o.info event }
     assert_raise(NameError) { o.warn event }
@@ -94,7 +92,7 @@ class TestOutputter < Test::Unit::TestCase
     o.level = ERROR
     assert_nothing_raised { o.debug event}
     assert_nothing_raised { o.info event}
-    assert_nothing_raised { o.warn event}  
+    assert_nothing_raised { o.warn event}
     assert_raise(NameError) { o.error event}
     assert_raise(NameError) { o.fatal event}
   end
@@ -129,4 +127,4 @@ class TestOutputter < Test::Unit::TestCase
     ts = Thread.new(log_thread_start)
     ts.join
   end
-end 
+end
