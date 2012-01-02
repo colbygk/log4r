@@ -1,8 +1,3 @@
-
-# $Id$
-
-# incorporated from Revolution Health version of log4r
-
 require 'rubygems'
 require 'rake'
 require 'rake/testtask'
@@ -18,3 +13,4 @@ Rake::TestTask.new :test do |t|
 #  t.verbose = true
 #  t.warning = true
 end
+

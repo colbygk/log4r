@@ -1,0 +1,16 @@
+= ScribeOutputter
+
+A ScribeOutputter transforms a Log4r::LogEvent into an event passed to Scribe. The user can configure the outputter with
+the host and port of the scribe scribe server.
+
+== Usage
+
+To use,
+  <tt>require 'log4r'</tt>
+
+An example,
+
+  require 'log4r'
+
+  logger = Log4r::ScribeOutputter.new('name', '127.0.0.1', 1463)
+  logger.debug("Hello World")
