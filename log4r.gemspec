@@ -20,7 +20,6 @@ Gem::Specification.new do |gem|
   gem.test_files = Dir.glob("tests/**/*")
   gem.files = Dir['doc/**/*'] + Dir['examples/**/*'] + Dir['lib/**/*']
 
-  gem.add_dependency "builder", [">= 2.0.0"]
   gem.add_development_dependency "bundler", [">= 1.0.0"]
   gem.add_development_dependency 'rake', ["~> 0.8.7"]
 end

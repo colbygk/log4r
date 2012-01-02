@@ -40,7 +40,7 @@ module Log4r
 
       @filename = _filename
       if ( @create == true ) then
-	@out = File.new(@filename, (@trunc ? "w" : "a")) 
+	@out = File.new(@filename, (@trunc ? "wb" : "ab")) 
 	Logger.log_internal {
 	  "FileOutputter '#{@name}' writing to #{@filename}"
 	}

@@ -1,4 +1,4 @@
 module Log4r
-  Log4rVersion = [1, 1, 9, 'pcting'].join '.' # deprecate?
+  Log4rVersion = [1, 1, 10].join '.' # deprecate?
   VERSION = Log4rVersion
 end

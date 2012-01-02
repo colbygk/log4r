@@ -1,3 +1,4 @@
+# encoding: utf-8
 require 'test_helper'
 
 class TestOutputter < TestCase
@@ -110,6 +111,18 @@ class TestOutputter < TestCase
     assert_nothing_raised { o.warn event}
     assert_nothing_raised { o.info event}
     assert_nothing_raised { o.fatal event}
+  end
+  if defined?( Encoding )
+    # tests that files are opened in binary mode
+    def test_file_encoding
+      Encoding.default_internal = Encoding::UTF_8
+      File.open( './junk/tmp2', 'w' ) { |f| f.write( 'scheiß encoding' ) }
+      fenc = FileOutputter.new('fenc', :filename => './junk/tmp2')
+      event = LogEvent.new(1, Logger.root, nil, 'scheiß encoding'.force_encoding('ASCII-8BIT'))
+      assert_nothing_raised(Encoding::UndefinedConversionError) do
+        fenc.debug event
+      end
+    end
   end
   def broken_test_threading
     class << self

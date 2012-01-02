@@ -40,7 +40,7 @@ class TestXmlConf < TestCase
   def test_load4
     assert_nothing_raised {
       Configurator['logpath'] = '.'
-      Configurator.load_xml_file "xml/testconf.xml"
+      Configurator.load_xml_file "testconf.xml"
       a = Logger['first::second']
       a.bing "what the heck"
     }

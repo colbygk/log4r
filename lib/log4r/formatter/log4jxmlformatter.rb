@@ -7,7 +7,11 @@
 require "log4r/formatter/formatter"
 
 require "rubygems"
-require "builder"
+begin
+  require "builder"
+rescue LoadError
+  puts "builder gem is required to use log4jxmlformatter, i.e. gem install builder"
+end
 
 module Log4r
 

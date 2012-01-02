@@ -1,7 +1,22 @@
+1.1.10
+* http://github.com/pcting :
+*   support for bundler integration
+*   fix to udpoutputter for yaml config
+*   fix to formatter to avoid nil backtrace exception
+*   modified tests to support newer test API but
+*   tests need more work to properly run (colbygk)
+* Mladen Jablanovic :
+*   rewrite of yamlconfigurator to avoid use of eval
+*   supporting nested configuration
+* http://github.com/mlew :
+*   optional scribe support
+* https://github.com/blaulabs
+*   open files in binary mode to support utf-8 encoded
+*   log strings (might be better way - colbygk - later)
+
 1.1.9
 
 * Make MDC support String, Symbol and Number as hash keys
-* ...
 
 1.1.8
 
