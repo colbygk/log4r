@@ -123,7 +123,7 @@ module Log4r
 
 	  # MDC matches, need to be able to handle String, Symbol or Number
 	  match6sub = /[\{\}\"]/
-	  mdcmatches = match[6].match /\{(:?)(\d*)(.*)\}/
+	  mdcmatches = match[6].match(/\{(:?)(\d*)(.*)\}/)
 
 	  if ( mdcmatches[1] == "" && mdcmatches[2] == "" )
 	    match6sub = /[\{\}]/ # don't remove surrounding "'s if String
