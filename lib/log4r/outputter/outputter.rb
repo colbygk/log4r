@@ -51,7 +51,7 @@ module Log4r
       @level = levels.sort.first
       OutputterFactory.create_methods self, levels
       Logger.log_internal {
-        "Outputter '#{@name}' writes only on " +\
+        "Outputter '#{@name}' writes only on " +
         levels.collect{|l| LNAMES[l]}.join(", ")
       }
     end
