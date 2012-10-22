@@ -69,7 +69,7 @@ module Log4r
 
     def format_object(obj)
       if obj.kind_of? Exception
-        return "Caught #{obj.class}: #{obj.message}\n\t" +\
+        return "Caught #{obj.class}: #{obj.message}\n\t" +
                (obj.backtrace.nil? ? [] : obj.backtrace[0...@depth]).join("\n\t")
       elsif obj.kind_of? String
         return obj
