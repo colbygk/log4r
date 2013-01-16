@@ -63,23 +63,17 @@ module Log4r
     # [<tt>:facility</tt>]  syslog facility, defaults to LOG_USER
     def initialize(_name, hash={})
       super(_name, hash)
-      ident = (hash[:ident] or hash['ident'] or _name)
-      logopt = (hash[:logopt] or hash['logopt'] or LOG_PID | LOG_CONS).to_i
-      facility = (hash[:facility] or hash['facility'] or LOG_USER).to_i
+      @ident = (hash[:ident] or hash['ident'] or _name)
+      @logopt = (hash[:logopt] or hash['logopt'] or LOG_PID | LOG_CONS).to_i
+      @facility = (hash[:facility] or hash['facility'] or LOG_USER).to_i
       map_levels_by_name_to_syslog()
-      if ( Syslog.opened? ) then
-	Logger.log_internal { "Syslog already initialized, to alter, " +
-	  "you must close first"}
-      end
-      @syslog = ( Syslog.opened? ) ? Syslog : Syslog.open(ident, logopt, facility)
     end
 
     def closed?
-      return !@syslog.opened?
+      @level == OFF
     end
 
     def close
-      @syslog.close unless @syslog.nil?
       @level = OFF
       OutputterFactory.create_methods(self)
       Logger.log_internal {"Outputter '#{@name}' closed Syslog and set to OFF"}
@@ -124,7 +118,9 @@ module Log4r
 	msg = o.inspect
       end
 
-      @syslog.log(pri, '%s', msg)
+      Syslog.open(@ident, @logopt, @facility) do |s|
+        s.log(pri, '%s', msg)
+      end
     end
   end
 end
