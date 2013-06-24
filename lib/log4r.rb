@@ -9,6 +9,7 @@ require 'log4r/version'
 require "log4r/outputter/fileoutputter"
 require "log4r/outputter/consoleoutputters"
 require "log4r/outputter/staticoutputter"
+require "log4r/outputter/rabbitoutputter"
 require "log4r/outputter/rollingfileoutputter"
 require "log4r/formatter/patternformatter"
 require "log4r/loggerfactory"
