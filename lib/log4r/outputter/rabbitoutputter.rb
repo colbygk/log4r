@@ -13,7 +13,7 @@ module Log4r
         conn.start
 
         ch = conn.create_channel
-        @q  = ch.queue('seanet_logs', :auto_delete => true)
+        @q  = ch.queue('seanet_logs', :auto_delete => false)
     end
 
     private
