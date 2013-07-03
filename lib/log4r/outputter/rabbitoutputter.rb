@@ -30,7 +30,9 @@ module Log4r
     def start_bunny
       begin
         stderr_log "Starting Bunny Client"
-        stderr_log @config
+        config = @config.clone
+        config[:pass] = "**redacted**"
+        stderr_log config
         conn = Bunny.new @config
         conn.start
         ch = conn.create_channel
