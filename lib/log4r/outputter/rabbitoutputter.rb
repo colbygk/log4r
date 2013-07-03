@@ -17,7 +17,6 @@ module Log4r
       if File.exist? @path_to_yaml_file
         if @config = YAML::load(IO.read(@path_to_yaml_file))
           @config.symbolize_keys!
-          stderr_log @config
           @queue_name = @config.delete :queue
           start_bunny
         else
