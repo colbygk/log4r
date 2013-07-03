@@ -13,7 +13,7 @@ module Log4r
       # Configuration defaults
       super(_name, hash)
       @path_to_yaml_file = "#{Rails.root}/config/rabbitmq.yml"
-      @config = { username: '', password: '', vhost: '', host: '', queue: '' }
+      @config = { user: '', pass: '', vhost: '', host: '', queue: '' }
       if File.exist? @path_to_yaml_file
         if @config = YAML::load(IO.read(@path_to_yaml_file))
           @config.symbolize_keys!
@@ -30,6 +30,7 @@ module Log4r
     def start_bunny
       begin
         stderr_log "Starting Bunny Client"
+        stderr_log @config
         conn = Bunny.new @config
         conn.start
         ch = conn.create_channel
