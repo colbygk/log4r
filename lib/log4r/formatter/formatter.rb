@@ -3,7 +3,7 @@
 # Version:: $Id$
 
 require "singleton"
-
+require 'json'
 require "log4r/base"
 
 module Log4r
@@ -68,13 +68,17 @@ module Log4r
     #              +inspect+. An example -- Array: [1, 2, 3]
 
     def format_object(obj)
-      if obj.kind_of? Exception
+      klass = obj.class
+      case  
+        when klass == Exception
         return "Caught #{obj.class}: #{obj.message}\n\t" +\
-               (obj.backtrace.nil? ? [] : obj.backtrace[0...@depth]).join("\n\t")
-      elsif obj.kind_of? String
-        return obj
-      else # inspect the object
-        return "#{obj.class}: #{obj.inspect}"
+          (obj.backtrace.nil? ? [] : obj.backtrace[0...@depth]).join("\n\t").gsub('"','\\\\"')
+        when klass == Hash
+          return obj.to_json.gsub('"','\\\\"')
+        when klass == String
+          return obj.gsub('"','\\\\"')
+        else # inspect the object
+          return "#{obj.class}: #{obj.inspect}".gsub('"','\\\\"')
       end
     end
   end
