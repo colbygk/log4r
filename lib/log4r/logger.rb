@@ -145,6 +145,23 @@ module Log4r
     def ==(other)
       return true if self.object_id == other.object_id
     end
+
+    # <tk>
+    def formatter
+      stderr_outputter = nil
+      @outputters.each do |outputter|
+        if outputter.class == StderrOutputter
+          stderr_outputter = outputter
+          break
+        end
+      end
+      if stderr_outputter.nil?
+        raise 'unable to locate stderr outputter'
+      else
+        return stderr_outputter.formatter
+      end
+    end
+    # </tk>
   end
 
 
