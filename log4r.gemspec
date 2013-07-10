@@ -15,7 +15,7 @@ Gem::Specification.new do |gem|
   gem.description = %Q{See also: http://logging.apache.org/log4j}
   gem.email = "colby@astro.berkeley.edu"
   gem.homepage = "http://log4r.rubyforge.org"
-  gem.authors = ['Colby Gutierrez-Kraybill']
+  gem.authors = ['Colby Gutierrez-Kraybill', 'tony kerz']
   gem.bindir = 'bin'
   gem.test_files = Dir.glob("tests/**/*")
   gem.files = Dir['doc/**/*'] + Dir['examples/**/*'] + Dir['lib/**/*']
