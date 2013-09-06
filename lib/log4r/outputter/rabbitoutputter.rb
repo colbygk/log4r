@@ -33,6 +33,7 @@ module Log4r
         config = @config.clone
         config[:pass] = "**redacted**"
         stderr_log config
+        @conn = Bunny.new @config
         @conn.start
         ch = @conn.create_channel
         @queue  = ch.queue(@queue_name, auto_delete: false, durable: true)
