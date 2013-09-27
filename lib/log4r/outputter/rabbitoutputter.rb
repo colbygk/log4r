@@ -33,9 +33,9 @@ module Log4r
         config = @config.clone
         config[:pass] = "**redacted**"
         stderr_log config
-        conn = Bunny.new @config
-        conn.start
-        ch = conn.create_channel
+        @conn = Bunny.new @config
+        @conn.start
+        ch = @conn.create_channel
         @queue  = ch.queue(@queue_name, auto_delete: false, durable: true)
       rescue Bunny::TCPConnectionFailed => e
         stderr_log "rescued from: #{e}. Unable to connect to Rabbit Server"
@@ -50,6 +50,10 @@ module Log4r
 
       def write(data)
         @queue.publish data, { routing_key: @queue.name } unless @queue.nil?
+      rescue Exception => e
+        @conn.send(:handle_network_failure, e)
+        ch = @conn.create_channel
+        @queue  = ch.queue(@queue_name, auto_delete: false, durable: true)
       end
 
   end
