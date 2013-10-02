@@ -19,6 +19,9 @@ class TestOutputter < TestCase
     o.close
     assert(f.closed? == true)
     assert(o.level == OFF)
+    assert_nothing_raised {
+      o.close
+    }
   end
   def test_repository
     assert( Outputter['foo3'].class == IOOutputter )
