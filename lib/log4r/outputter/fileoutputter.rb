@@ -40,7 +40,8 @@ module Log4r
 
       @filename = _filename
       if ( @create == true ) then
-	@out = File.new(@filename, (@trunc ? "wb" : "ab")) 
+	@out = File.new(@filename, (@trunc ? "wb" : "ab"))
+        @out.sync = Log4rTools.decode_bool(hash, :sync, false)
 	Logger.log_internal {
 	  "FileOutputter '#{@name}' writing to #{@filename}"
 	}
@@ -52,5 +53,5 @@ module Log4r
     end
 
   end
-  
+
 end
