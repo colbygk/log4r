@@ -26,7 +26,7 @@ module Log4r
 
     # Close the IO and sets level to OFF
     def close
-      @out.close unless @out.nil?
+      @out.close unless @out.nil? || closed?
       @level = OFF
       OutputterFactory.create_methods(self)
       Logger.log_internal {"Outputter '#{@name}' closed IO and set to OFF"}
