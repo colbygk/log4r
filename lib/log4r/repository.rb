@@ -60,7 +60,7 @@ module Log4r
       # updates the children of a logger to link their new parent
       def self.reassign_any_children(parent)
 	self.synchronize do
-	  for fullname, logger in instance.loggers
+	  for _, logger in instance.loggers
 	    next if logger.is_root?
 	    logger.parent = parent if logger.path =~ /^#{parent.fullname}$/
 	  end
