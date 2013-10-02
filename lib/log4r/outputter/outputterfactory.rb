@@ -3,7 +3,6 @@
 
 require "log4r/base"
 require "log4r/repository"
-require "log4r/logger"
 
 require 'monitor'
 
