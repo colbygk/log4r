@@ -13,10 +13,11 @@ module Log4r
       # Configuration defaults
       super(_name, hash)
       @path_to_yaml_file = "#{Rails.root}/config/rabbitmq.yml"
-      @config = {}
+      @config = {:host => 'localhost'}
       if File.exist? @path_to_yaml_file
         if settings = YAML::load(IO.read(@path_to_yaml_file))
-          @config.merge!(settings.fetch(Rails.env, {}))
+          env_settings = settings.include?(Rails.env) ? settings[Rails.env] : settings
+          @config.merge!(env_settings)
           @config.symbolize_keys!
           @queue_name = @config.delete(:queue) || ''
           start_bunny rescue nil
@@ -36,8 +37,7 @@ module Log4r
         stderr_log config
         @conn = Bunny.new @config
         @conn.start
-        ch = @conn.create_channel
-        @queue  = ch.queue(@queue_name, auto_delete: false, durable: true)
+        create_channel
       rescue Bunny::TCPConnectionFailed => e
         stderr_log "rescued from: #{e}. Unable to connect to Rabbit Server"
       end
@@ -46,16 +46,20 @@ module Log4r
     def stderr_log(msg)
       $stderr.puts "[#{Time.now.utc}] #{msg}"
     end
+
+    def create_channel
+      ch = @conn.create_channel
+      @queue  = ch.queue(@queue_name, auto_delete: false, durable: true)
+    end
     
     private
 
-      def write(data)
-        @queue.publish data, { routing_key: @queue.name } unless @queue.nil?
-      rescue Exception => e
-        @conn.send(:handle_network_failure, e)
-        ch = @conn.create_channel
-        @queue  = ch.queue(@queue_name, auto_delete: false, durable: true)
-      end
+    def write(data)
+      @queue.publish data, { routing_key: @queue.name } if @conn.connected? and @queue
+    rescue Exception => e
+      @conn.send(:handle_network_failure, e)
+      create_channel if @conn.connected?
+    end
 
   end
 end
