@@ -15,7 +15,8 @@ module Log4r
       @path_to_yaml_file = "#{Rails.root}/config/rabbitmq.yml"
       @config = { user: '', pass: '', vhost: '', host: '', queue: '' }
       if File.exist? @path_to_yaml_file
-        if @config = YAML::load(IO.read(@path_to_yaml_file))
+        if settings = YAML::load(IO.read(@path_to_yaml_file))
+          @config.merge!(settings.fetch(Rails.env, {}))
           @config.symbolize_keys!
           @queue_name = @config.delete :queue
           start_bunny
