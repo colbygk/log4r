@@ -16,8 +16,7 @@ module Log4r
       @config = {:host => 'localhost'}
       if File.exist? @path_to_yaml_file
         if settings = YAML::load(IO.read(@path_to_yaml_file))
-          env_settings = settings.include?(Rails.env) ? settings[Rails.env] : settings
-          @config.merge!(env_settings)
+          @config = settings.include?(Rails.env) ? settings[Rails.env] : settings
           @config.symbolize_keys!
           @queue_name = @config.delete(:queue) || ''
           start_bunny rescue nil
