@@ -19,7 +19,7 @@ module Log4r
           @config.merge!(settings.fetch(Rails.env, {}))
           @config.symbolize_keys!
           @queue_name = @config.delete(:queue) || ''
-          start_bunny
+          start_bunny rescue nil
         else
           stderr_log "Malformed configuration file [#{@path_to_yaml_file}]"
         end
