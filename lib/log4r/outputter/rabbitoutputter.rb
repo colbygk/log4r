@@ -13,7 +13,7 @@ module Log4r
       # Configuration defaults
       super(_name, hash)
       @path_to_yaml_file = "#{Rails.root}/config/rabbitmq.yml"
-      @config = { user: '', pass: '', vhost: '', host: '', queue: '' }
+      @config = {}
       if File.exist? @path_to_yaml_file
         if settings = YAML::load(IO.read(@path_to_yaml_file))
           @config.merge!(settings.fetch(Rails.env, {}))
