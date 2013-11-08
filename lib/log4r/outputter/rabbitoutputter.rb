@@ -18,7 +18,7 @@ module Log4r
         if settings = YAML::load(IO.read(@path_to_yaml_file))
           @config.merge!(settings.fetch(Rails.env, {}))
           @config.symbolize_keys!
-          @queue_name = @config.delete :queue
+          @queue_name = @config.delete(:queue) || ''
           start_bunny
         else
           stderr_log "Malformed configuration file [#{@path_to_yaml_file}]"
@@ -32,7 +32,7 @@ module Log4r
       begin
         stderr_log "Starting Bunny Client"
         config = @config.clone
-        config[:pass] = "**redacted**"
+        config[:pass] &&= "**redacted**"
         stderr_log config
         @conn = Bunny.new @config
         @conn.start
