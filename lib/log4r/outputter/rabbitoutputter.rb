@@ -12,7 +12,7 @@ module Log4r
     def initialize(_name, hash={})
       # Configuration defaults
       super(_name, hash)
-      stderr_log "Unable to find rabbit configuration file" unless @config
+      stderr_log "Unable to find rabbit configuration file" unless load_config
       @config ||= {:host => "localhost"}
       @config.symbolize_keys!
       @queue_name = @config.delete(:queue) || ''
