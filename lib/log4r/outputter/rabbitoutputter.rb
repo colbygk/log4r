@@ -21,14 +21,14 @@ module Log4r
 
     def load_config_file(name)
       path = "#{Rails.root}/config/#{name}"
-      if File.exist?(name)
+      if File.exist?(path)
         @config = YAML::load(IO.read(path)) 
       end
     end
 
     def load_config
-      if load_config_file("bunny.yml")
-        @config = @config[Rails.env]
+      @config = if load_config_file("bunny.yml")
+        @config[Rails.env]
       else
         load_config_file("rabbitmq.yml")
       end
