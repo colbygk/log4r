@@ -12,7 +12,6 @@ module Log4r
     def initialize(_name, hash={})
       # Configuration defaults
       super(_name, hash)
-      @path_to_yaml_file = "#{Rails.root}/config/rabbitmq.yml"
       @config = {:host => 'localhost'}
       if File.exist? @path_to_yaml_file
         if settings = YAML::load(IO.read(@path_to_yaml_file))
@@ -26,6 +25,31 @@ module Log4r
       else
         stderr_log "Unable to find rabbit configuration file [#{@path_to_yaml_file}]"
       end
+    end
+
+    def load_config_file(name)
+      if File.exist?(name)
+        @config = YAML::load(IO.read("#{Rails.root}/config/#{name}")) 
+      end
+    end
+
+    def load_legacy_format()
+      file = YAML::load(IO.read(legacy_filename)) 
+    end
+
+    def load_new_format
+      file = YAML::load(IO.read(filename))
+    end
+
+    def load_config
+      bunny = "bunny.yml"
+      rabbit = "rabbitmq.yml"
+      @config = load_config_file("bunny.yml") 
+      @config = 
+        load_config_file(bunny)[Rails.env]
+      elsif File.exist?("rabbitmq.yml")
+
+      return load_legacy_format if File.exist?(legacy_filename)
     end
 
     def start_bunny
