@@ -20,8 +20,9 @@ module Log4r
     end
 
     def load_config_file(name)
+      path = "#{Rails.root}/config/#{name}"
       if File.exist?(name)
-        @config = YAML::load(IO.read("#{Rails.root}/config/#{name}")) 
+        @config = YAML::load(IO.read(path)) 
       end
     end
 
