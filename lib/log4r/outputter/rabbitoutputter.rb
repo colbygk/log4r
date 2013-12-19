@@ -4,6 +4,7 @@ require 'logger'
 require "log4r/outputter/outputter"
 require 'bunny'
 require 'yaml'
+require 'stringio'
 
 module Log4r
   # See log4r/logserver.rb
@@ -16,13 +17,14 @@ module Log4r
       @config ||= {:host => "localhost"}
       @config.symbolize_keys!
       @queue_name = @config.delete(:queue) || ''
+      init_buffer
       start_bunny rescue nil
     end
 
     def load_config_file(name)
       path = "#{Rails.root}/config/#{name}"
       if File.exist?(path)
-        @config = YAML::load(IO.read(path)) 
+        @config = YAML::load(IO.read(path))
       end
     end
 
@@ -56,14 +58,29 @@ module Log4r
       ch = @conn.create_channel
       @queue  = ch.queue(@queue_name, auto_delete: false, durable: true)
     end
-    
-    private
 
-    def write(data)
-      @queue.publish data, { routing_key: @queue.name } if @conn.connected? and @queue
+    def flush
+      @queue.publish(read_buffer, { routing_key: @queue.name }) if @conn.connected? and @queue
+      init_buffer
     rescue Exception => e
       @conn.send(:handle_network_failure, e)
       create_channel if @conn.connected?
+    end
+
+    private
+
+    def init_buffer
+      @buffered_data = StringIO.new
+    end
+
+    def write(data)
+      stripped = data.gsub(/\s+$/,'')
+      return if stripped.empty?
+      @buffered_data.write("#{stripped}\n")
+    end
+
+    def read_buffer
+      @buffered_data.string
     end
 
   end
