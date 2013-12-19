@@ -70,17 +70,15 @@ module Log4r
     private
 
     def init_buffer
-      @buffered_data = StringIO.new
+      @buffered_data = []
     end
 
     def write(data)
-      stripped = data.gsub(/\s+$/,'')
-      return if stripped.empty?
-      @buffered_data.write("#{stripped}\n")
+      @buffered_data << data.gsub(/\s+$/,'')
     end
 
     def read_buffer
-      @buffered_data.string
+      @buffered_data.join("\n")
     end
 
   end
