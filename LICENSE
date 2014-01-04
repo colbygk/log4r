@@ -1,20 +1,15 @@
 
-This software has evolved through three maintainers and three
-copyright notices.  I am an employee of UC Berkeley, which
-therefore makes me an employee of the State of California.
-By law, all works that I create as part of my job are
-owned by the University of California Regents.  I am able
-to mark software as being under the Gnu General Lesser Public
-License v3 and have done so for my versions of the Log4r software.
+I have change the license for log4r to the BSD 3-clause license.
 
-See the file LICENSE.LGPLv3 for more information.
+See the LICENSE.bsd file for more information
 
-18 Sept 2009
+04 Jan 2014
 Colby Gutierrez-Kraybill
-colby@sri.com
+colby@shrewdraven.com
 
-Copyright (c) 2009 University of California Regents, Gnu LGPLv3
-Copyright (c) 2007, 2008 Revolution Health
+Copyright (c) 2014 ShrewdRaven Inc, BSD
+Copyright (c) 2009-2013 University of California Regents, Gnu LGPLv3
+Copyright (c) 2007-2008 Revolution Health
 Copyright (c) 2002-2004 Leon Torres
 
 ---------------------------------------------------------------------

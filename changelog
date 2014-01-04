@@ -1,3 +1,23 @@
+1.1.11
+* NOTE CHANGE TO BSD STYLE LICENSE
+*
+* http://github.com/mareklipka
+*   Added BufferedSyslogOutputter
+* http://github.com/tony-kerz
+*   Rails 4 friendly
+* http://github.com/dax
+*   Added sync option to FileOutputter
+* http://github.com/carsonreinke
+*   SyslogOutputter keeping Syslog open fix
+* http://github.com/tylerholien
+*   Fixed Encoding::UndfinedConversionError
+* http://github.com/ToadJamb
+*   Reduced warnings
+* http://github.com/teubanks
+*   Fixed closing closed socket bug
+* http://github.com/nbrochu
+*   Silence JRuby warnings
+
 1.1.10
 * http://github.com/pcting :
 *   support for bundler integration

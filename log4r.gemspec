@@ -13,7 +13,7 @@ Gem::Specification.new do |gem|
   gem.version = Log4r::VERSION
   gem.summary = %Q{Log4r, logging framework for ruby}
   gem.description = %Q{See also: http://logging.apache.org/log4j}
-  gem.email = "colby@astro.berkeley.edu"
+  gem.email = "colby@shrewdraven.com"
   gem.homepage = "http://log4r.rubyforge.org"
   gem.authors = ['Colby Gutierrez-Kraybill', 'tony kerz']
   gem.bindir = 'bin'
