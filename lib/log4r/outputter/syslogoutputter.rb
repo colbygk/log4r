@@ -15,6 +15,8 @@ module Log4r
 
   class SyslogOutputter < Outputter
     include Syslog::Constants
+    
+    SEMAPHOR = Mutex.new()
 
     # maps default log4r levels to syslog priorities (logevents never see ALL and OFF)
     # SYSLOG Levels are:
