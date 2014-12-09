@@ -157,9 +157,6 @@ module Log4r
     def self.options
       @@options
     end
-    def self.application
-      @@app
-    end
     
     def self.controller_log(payload)
       logger = Rails.logger
