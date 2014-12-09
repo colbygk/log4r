@@ -114,6 +114,17 @@ module Log4r
       if Rails.const_defined?(:Rack) && Rails::Rack.const_defined?(:Logger)
         self.setup_logger Rails::Rack::Logger, "root"
       end
+      # override DebugExceptions output
+      ActionDispatch::DebugExceptions.module_eval %-
+        def log_error(env, wrapper)
+          logger = Rails.logger
+          exception = wrapper.exception
+          # trace = wrapper.application_trace
+          # trace = wrapper.framework_trace if trace.empty?
+          logger.info "ActionDispatch Exception: \#{exception.class} (\#{exception.message})"
+        end
+        private :log_error
+      -
     end
     
     # remove rails default log subscriptions
