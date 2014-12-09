@@ -21,27 +21,30 @@ module Log4r
     config.log4r.auto_reload = true
 
     initializer "log4r.pre_init", :before => :initialize_logger do |app|
-      return if !app.config.log4r.enabled
-      Log4r::Railtie.load_config
-      Log4r::Railtie.pre_init(app, {:root => Rails.root.to_s, :env => Rails.env}.merge(app.config.log4r))
+      if app.config.log4r.enabled
+        Log4r::Railtie.load_config
+        Log4r::Railtie.pre_init(app, {:root => Rails.root.to_s, :env => Rails.env}.merge(app.config.log4r))
+      end
     end
 
     initializer "log4r.post_init", :after => :initialize_logger do |app|
-      return if !app.config.log4r.enabled
-      Log4r::Railtie.post_init
+      if app.config.log4r.enabled
+        Log4r::Railtie.post_init
+      end
     end
 
     initializer "log4r.cache_logger", :after => :initialize_cache do |app|
-      return if !app.config.log4r.enabled
-      Rails.cache.extend Module.new {
-        @@custom_logger
-        def logger
-          Log4r::Logger['rails::cache'] || Log4r::Logger.root
-        end
-        def logger=(l)
-          (l || logger).debug "Log4r is preventing set of logger."
-        end
-      }
+      if app.config.log4r.enabled
+        Rails.cache.extend Module.new {
+          @@custom_logger
+          def logger
+            Log4r::Logger['rails::cache'] || Log4r::Logger.root
+          end
+          def logger=(l)
+            (l || logger).debug "Log4r is preventing set of logger."
+          end
+        }
+      end
     end
     
     # load or reload config from RAILS_ROOT/config/log4r.yaml or RAILS_ROOT/config/log4r-production.yaml

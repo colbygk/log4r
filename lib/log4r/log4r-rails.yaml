@@ -4,7 +4,7 @@ log4r_config:
     - name          : 'rails'
       level         : DEBUG
       additive      : false
-      trace         : true
+      trace         : false
       outputters    : 
       - console
 
