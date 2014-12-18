@@ -47,164 +47,170 @@ module Log4r
       end
     end
     
-    # load or reload config from RAILS_ROOT/config/log4r.yaml or RAILS_ROOT/config/log4r-production.yaml
-    @@config_time = Time.new 0
-    @@config_next_check = Time.new 0
-    @@config_path = nil
-    def self.load_config
-      # auto reload config every 30 seconds.
-      return if Time.now < @@config_next_check
-      @@config_next_check = Time.now + 30
-      return  if !@@config_path.nil? && (!File.file?(@@config_path) || File.mtime(@@config_path) == @@config_time)
-      config_path = File.join Rails.root, "config", "log4r.yaml"
-      begin
-        if Rails.env == 'production'
-          production_config = File.join Rails.root, "config", "log4r-production.yaml"
-          config_path = production_config if File.file?(production_config)
-        end
-        if File.file? config_path
-          YamlConfigurator.load_yaml_file config_path
-          @@config_path = config_path
-          @@config_time = File.mtime(config_path)
-          return
-        end
-        puts "Log4r Warning: Unable to find log4r config file for rails, using default config."
-      rescue Log4r::ConfigError => e
-        puts "Log4r Error: Unable to load config #{config_path}, error: #{e}. Using default config."
-      end
-      config_path = File.join File.dirname(__FILE__), 'log4r-rails.yaml'
-      YamlConfigurator.load_yaml_file config_path
-    end
-    
-    def self.pre_init(app, opts)
-      @@app = app
-      @@options = opts
-      # silence default rails logger
-      app.config.log_level = :unknown
-      # define global logger
-      self.setup_logger Object, "root"
-      # define rails controller logger names
-      self.setup_logger ActionController::Base, "rails::controllers"
-      self.setup_logger ActiveRecord::Base, "rails::models"
-      self.setup_logger ActionMailer::Base, "rails::mailers"
+    class << self
       
-      self.remove_existing_log_subscriptions
-      
-      ActiveSupport::Notifications.subscribe "process_action.action_controller" do |name, start, finish, id, payload|
-        Log4r::Railtie.load_config if Log4r::Railtie.options[:auto_reload]
-        Log4r::Railtie.controller_log({ duration: ((finish - start).to_f * 100000).round / 100.0 }.merge(payload))
-      end
-      
-      ActiveSupport::Notifications.subscribe "sql.active_record" do |name, start, finish, id, payload|
-        Log4r::Railtie.load_config if Log4r::Railtie.options[:auto_reload]
-        logger = Log4r::Logger["rails::db"] || Log4r::Logger.root
-        logger.debug { "(#{((finish - start).to_f * 100000).round / 100.0 }) #{payload[:sql]}" }
-      end
-    end
-    
-    def self.post_init
-      self.setup_logger Rails, "rails"
-      # fix rails server stdout formatter issue
-      Rails.logger.extend Module.new {
-        def formatter
-          nil
-        end
-      }
-      # disable rack development output, e.g. Started GET "/session/new" for 127.0.0.1 at 2012-09-26 14:51:42 -0700
-      if Rails.const_defined?(:Rack) && Rails::Rack.const_defined?(:Logger)
-        self.setup_logger Rails::Rack::Logger, "root"
-      end
-      # override DebugExceptions output
-      ActionDispatch::DebugExceptions.module_eval %-
-        def log_error(env, wrapper)
-          logger = Rails.logger
-          exception = wrapper.exception
-          # trace = wrapper.application_trace
-          # trace = wrapper.framework_trace if trace.empty?
-          logger.info "ActionDispatch Exception: \#{exception.class} (\#{exception.message})"
-        end
-        private :log_error
-      -
-    end
-    
-    # remove rails default log subscriptions
-    # [ActiveRecord::LogSubscriber, ActionController::LogSubscriber, ActionView::LogSubscriber, ActionMailer::LogSubscriber] 
-    def self.remove_existing_log_subscriptions
-      ActiveSupport::LogSubscriber.log_subscribers.each do |subscriber|
-        case subscriber
-        when ActionView::LogSubscriber
-          unsubscribe(:action_view, subscriber)
-        when ActionController::LogSubscriber
-          unsubscribe(:action_controller, subscriber)
-        when ActiveRecord::LogSubscriber
-          unsubscribe(:active_record, subscriber)
-        when ActionMailer::LogSubscriber
-          unsubscribe(:action_mailler, subscriber)
-        end
-      end
-    end
-    def self.unsubscribe(component, subscriber)
-      events = subscriber.public_methods(false).reject { |method| method.to_s == 'call' }
-      events.each do |event|
-        ActiveSupport::Notifications.notifier.listeners_for("#{event}.#{component}").each do |listener|
-          if listener.instance_variable_get('@delegate') == subscriber
-            ActiveSupport::Notifications.unsubscribe listener
+      # remove rails default log subscriptions
+      # [ActiveRecord::LogSubscriber, ActionController::LogSubscriber, ActionView::LogSubscriber, ActionMailer::LogSubscriber] 
+      unsubscribe = lambda { |component, subscriber|
+        events = subscriber.public_methods(false).reject { |method| method.to_s == 'call' }
+        events.each do |event|
+          ActiveSupport::Notifications.notifier.listeners_for("#{event}.#{component}").each do |listener|
+            if listener.instance_variable_get('@delegate') == subscriber
+              ActiveSupport::Notifications.unsubscribe listener
+            end
           end
         end
-      end
-    end
-    
-    def self.options
-      @@options
-    end
-    
-    def self.controller_log(payload)
-      logger = Rails.logger
-      params_logger = Log4r::Logger["rails::params"] || Loger4r::Logger.root
+      }
+      remove_existing_log_subscriptions = lambda {
+        ActiveSupport::LogSubscriber.log_subscribers.each do |subscriber|
+          case subscriber
+          when ActionView::LogSubscriber
+            unsubscribe.call(:action_view, subscriber)
+          when ActionController::LogSubscriber
+            unsubscribe.call(:action_controller, subscriber)
+          when ActiveRecord::LogSubscriber
+            unsubscribe.call(:active_record, subscriber)
+          when ActionMailer::LogSubscriber
+            unsubscribe.call(:action_mailler, subscriber)
+          end
+        end
+      }
       
-      duration = payload[:duration]
-      unless payload[:exception].nil?
-        logger.warn {
-          db = (payload[:db_runtime] * 100).round/100.0 rescue "-"
-          view = (payload[:view_runtime] * 100).round/100.0 rescue "-"
-          "#{payload[:method]} #{payload[:path]} (TIMING[ms]: sum:#{duration} db:#{db} view:#{view}) EXCEPTION: #{payload[:exception]}"
+      config_time = Time.new 0
+      config_next_check = Time.now
+      config_path = nil
+      options = nil
+      
+      define_method(:options) { options }
+      
+      # load or reload config from RAILS_ROOT/config/log4r.yaml or RAILS_ROOT/config/log4r-production.yaml
+      define_method :load_config do
+        # auto reload config every 30 seconds.
+        return if Time.now < config_next_check
+        config_next_check = Time.now + 30
+        return  if !config_path.nil? && (!File.file?(config_path) || File.mtime(config_path) == config_time)
+        config_path = File.join Rails.root, "config", "log4r.yaml"
+        begin
+          if Rails.env == 'production'
+            production_config = File.join Rails.root, "config", "log4r-production.yaml"
+            config_path = production_config if File.file?(production_config)
+          end
+          if File.file? config_path
+            YamlConfigurator.load_yaml_file config_path
+            config_path = config_path
+            config_time = File.mtime(config_path)
+            return
+          end
+          puts "Log4r Warning: Unable to find log4r config file for rails, using default config."
+        rescue Log4r::ConfigError => e
+          puts "Log4r Error: Unable to load config #{config_path}, error: #{e}. Using default config."
+        end
+        config_path = File.join File.dirname(__FILE__), 'log4r-rails.yaml'
+        YamlConfigurator.load_yaml_file config_path
+      end
+      
+      define_method :pre_init do |app, opts|
+        options = opts
+        # silence default rails logger
+        app.config.log_level = :unknown
+        # define global logger
+        setup_logger Object, "root"
+        # define rails controller logger names
+        setup_logger ActionController::Base, "rails::controllers"
+        setup_logger ActiveRecord::Base, "rails::models"
+        setup_logger ActionMailer::Base, "rails::mailers"
+        
+        remove_existing_log_subscriptions.call
+        
+        ActiveSupport::Notifications.subscribe "process_action.action_controller" do |name, start, finish, id, payload|
+          Log4r::Railtie.load_config if Log4r::Railtie.options[:auto_reload]
+          Log4r::Railtie.controller_log({ duration: ((finish - start).to_f * 100000).round / 100.0 }.merge(payload))
+        end
+        
+        ActiveSupport::Notifications.subscribe "sql.active_record" do |name, start, finish, id, payload|
+          Log4r::Railtie.load_config if Log4r::Railtie.options[:auto_reload]
+          logger = Log4r::Logger["rails::db"] || Log4r::Logger.root
+          logger.debug { "(#{((finish - start).to_f * 100000).round / 100.0 }) #{payload[:sql]}" }
+        end
+      end
+      
+      def post_init
+        setup_logger Rails, "rails"
+        # fix rails server stdout formatter issue
+        Rails.logger.extend Module.new {
+          def formatter
+            nil
+          end
         }
+        # disable rack development output, e.g. Started GET "/session/new" for 127.0.0.1 at 2012-09-26 14:51:42 -0700
+        if Rails.const_defined?(:Rack) && Rails::Rack.const_defined?(:Logger)
+          setup_logger Rails::Rack::Logger, "root"
+        end
+        # override DebugExceptions output
+        ActionDispatch::DebugExceptions.module_eval %-
+          def log_error(env, wrapper)
+            logger = Rails.logger
+            exception = wrapper.exception
+            # trace = wrapper.application_trace
+            # trace = wrapper.framework_trace if trace.empty?
+            logger.info "ActionDispatch Exception: \#{exception.class} (\#{exception.message})"
+          end
+          private :log_error
+        -
+      end
+      
+      def controller_log(payload)
+        logger = Rails.logger
+        params_logger = Log4r::Logger["rails::params"] || Loger4r::Logger.root
+        
+        duration = payload[:duration]
+        unless payload[:exception].nil?
+          logger.warn {
+            db = (payload[:db_runtime] * 100).round/100.0 rescue "-"
+            view = (payload[:view_runtime] * 100).round/100.0 rescue "-"
+            "#{payload[:method]} #{payload[:path]} (TIMING[ms]: sum:#{duration} db:#{db} view:#{view}) EXCEPTION: #{payload[:exception]}"
+          }
+          params_logger.info { "request params: " + payload[:params].to_json }
+          return
+        end
+        if duration >= Log4r::Railtie.options[:action_mht]
+          logger.warn {
+            db = (payload[:db_runtime] * 100).round/100.0 rescue "-"
+            view = (payload[:view_runtime] * 100).round/100.0 rescue "-"
+            "#{payload[:method]} #{payload[:path]} (TIMING[ms]: sum:#{duration} db:#{db} view:#{view})"
+          }
+        else
+          logger.info {
+            db = (payload[:db_runtime] * 100).round/100.0 rescue "-"
+            view = (payload[:view_runtime] * 100).round/100.0 rescue "-"
+            "#{payload[:method]} #{payload[:path]} (TIMING[ms]: sum:#{duration} db:#{db} view:#{view})"
+          }
+        end
         params_logger.info { "request params: " + payload[:params].to_json }
-        return
       end
-      if duration >= Log4r::Railtie.options[:action_mht]
-        logger.warn {
-          db = (payload[:db_runtime] * 100).round/100.0 rescue "-"
-          view = (payload[:view_runtime] * 100).round/100.0 rescue "-"
-          "#{payload[:method]} #{payload[:path]} (TIMING[ms]: sum:#{duration} db:#{db} view:#{view})"
-        }
-      else
-        logger.info {
-          db = (payload[:db_runtime] * 100).round/100.0 rescue "-"
-          view = (payload[:view_runtime] * 100).round/100.0 rescue "-"
-          "#{payload[:method]} #{payload[:path]} (TIMING[ms]: sum:#{duration} db:#{db} view:#{view})"
-        }
+      
+      # convenient static method to setup logger for class and descendants.
+      def setup_logger(clazz, logger_name)
+        clazz.module_eval %(
+          class << self
+            custom_logger = nil
+            define_method :logger do
+              custom_logger || Log4r::Logger['#{logger_name}'] || Log4r::Logger.root
+            end
+            define_method :logger= do |l|
+              (l || custom_logger).debug "Log4r is preventing set of logger. Use #custom_logger= if you really want it set."
+            end
+            define_method :custom_logger= do |l|
+              custom_logger = l
+            end
+          end
+          
+          def logger
+            #{clazz.name}.logger
+          end
+        )
       end
-      params_logger.info { "request params: " + payload[:params].to_json }
-    end
-    
-    # convenient static method to setup logger for class and descendants.
-    def self.setup_logger(clazz, logger_name)
-      clazz.module_eval %(
-        @@custom_logger = nil
-        def self.logger
-          @@custom_logger || Log4r::Logger['#{logger_name}'] || Log4r::Logger.root
-        end
-        def self.logger=(l)
-          (l || @@custom_logger).debug "Log4r is preventing set of logger. Use #custom_logger= if you really want it set."
-        end
-        def self.custom_logger=(l)
-          @@custom_logger = l
-        end
-        def logger
-          #{clazz.inspect}.logger
-        end
-      )
+      
     end
     
   end # class Railtie
