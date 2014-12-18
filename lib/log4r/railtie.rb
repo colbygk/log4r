@@ -35,15 +35,14 @@ module Log4r
 
     initializer "log4r.cache_logger", :after => :initialize_cache do |app|
       if app.config.log4r.enabled
-        Rails.cache.extend Module.new {
-          @@custom_logger
+        class << Rails.cache
           def logger
             Log4r::Logger['rails::cache'] || Log4r::Logger.root
           end
           def logger=(l)
-            (l || logger).debug "Log4r is preventing set of logger."
+            (l || logger).debug "Log4r is preventing set of logger for cache."
           end
-        }
+        end
       end
     end
     
@@ -137,11 +136,23 @@ module Log4r
       def post_init
         setup_logger Rails, "rails"
         # fix rails server stdout formatter issue
-        Rails.logger.extend Module.new {
-          def formatter
-            nil
+        if Rails.env == 'development' && Rails.logger.instance_of?(Log4r::Logger)
+          if Rails.logger.respond_to? :formatter # latest Log4r ~> 1.1.11
+            if Rails.logger.outputters.find{|o|o.class == Log4r::StderrOutputter}.nil?
+              outputter = Log4r::StderrOutputter.new "rack_patch"
+              outputter.level = Log4r::LNAMES.count - 1 # turn it :OFF
+              outputter.extend Module.new {
+                def formatter
+                  Rails.logger.remove self # remove the outputter as soon as the rack server has started
+                  nil
+                end
+              }
+              Rails.logger.add outputter
+            end
+          else
+            Rails.logger.extend Module.new { def formatter; nil; end }
           end
-        }
+        end
         # disable rack development output, e.g. Started GET "/session/new" for 127.0.0.1 at 2012-09-26 14:51:42 -0700
         if Rails.const_defined?(:Rack) && Rails::Rack.const_defined?(:Logger)
           setup_logger Rails::Rack::Logger, "root"
@@ -161,7 +172,7 @@ module Log4r
       
       def controller_log(payload)
         logger = Rails.logger
-        params_logger = Log4r::Logger["rails::params"] || Loger4r::Logger.root
+        params_logger = Log4r::Logger["rails::params"] || Log4r::Logger.root
         
         duration = payload[:duration]
         unless payload[:exception].nil?
