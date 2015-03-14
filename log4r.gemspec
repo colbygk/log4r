@@ -16,6 +16,7 @@ Gem::Specification.new do |gem|
   gem.email = "colby@shrewdraven.com"
   gem.homepage = "http://log4r.rubyforge.org"
   gem.authors = ['Colby Gutierrez-Kraybill', 'tony kerz']
+  gem.licences = ['BSD']
   gem.bindir = 'bin'
   gem.test_files = Dir.glob("tests/**/*")
   gem.files = Dir['doc/**/*'] + Dir['examples/**/*'] + Dir['lib/**/*']
