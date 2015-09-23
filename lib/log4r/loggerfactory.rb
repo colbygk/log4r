@@ -71,6 +71,7 @@ class Logger
           end
           @outputters.each {|o| o.#{lname.downcase}(event) }
           #{parentcall}
+          nil
         end
       -
       module_eval mstr
