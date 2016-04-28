@@ -61,6 +61,7 @@ terminology.
            BasicFormatter. It will pretty-print Exceptions, print Strings
            and inspect everything else. Slow.
 [<b>l</b>] The name of the level. That's l as in Lambda. Fast.
+[<b>L</b>] The name of the level colorized and truncated to first 4 characters. Fast.
 [<b>%</b>] %% just prints a %. Any formatting is <em>probably</em> ignored. 
            Fast.
 
