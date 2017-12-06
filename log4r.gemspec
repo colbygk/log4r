@@ -14,7 +14,7 @@ Gem::Specification.new do |gem|
   gem.summary = %Q{Log4r, logging framework for ruby}
   gem.description = %Q{See also: http://logging.apache.org/log4j}
   gem.email = "colby@shrewdraven.com"
-  gem.homepage = "http://log4r.rubyforge.org"
+  gem.homepage = "https://github.com/colbygk/log4r"
   gem.authors = ['Colby Gutierrez-Kraybill', 'tony kerz']
   gem.bindir = 'bin'
   gem.test_files = Dir.glob("tests/**/*")
