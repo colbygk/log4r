@@ -5,15 +5,17 @@ This release:      1.1.11
 Release date:      04/Jan/2014
 License:           BSD
 Maintainer:        Colby Gutierrez-Kraybill
-Contributors:      Leon Torres               Original Maintainer
-                   Martain Stannard          RollingFileOutputter
-                   Steve Lumos               SyslogOutputter
-                   Mark Lewandowski          ScribeOutputter
-                   Andreas Hund              YamlConfigurator
-                   Jamis Buck                log4r.gemspec
-                   Charles Strahan           log4jxml/chainsaw integration
-                   Nitay Joffe               STARTTLS
-                   David Siegal              Smart updates to RollingFileOutputter
+|Contributor| |
+|-----------|-|
+|Leon Torres|Original Maintainer|
+|Martain Stannard|RollingFileOutputter|
+|Steve Lumos|SyslogOutputter|
+|Mark Lewandowski|ScribeOutputter|
+|Andreas Hund|YamlConfigurator|
+|Jamis Buck|log4r.gemspec|
+|Charles Strahan|log4jxml/chainsaw integration|
+|Nitay Joffe|STARTTLS|
+|David Siegal|Smart updates to RollingFileOutputter|
 Homepage:          http://log4r.rubyforge.org/
 Download:          http://rubyforge.org/frs/?group_id=203
 
@@ -30,36 +32,24 @@ and YAML configuration, and more.
 Requirements
 ------------
 
-* (required) Ruby >= 1.7.0 (use log4r 1.0.2 for Ruby 1.6)
-* (optional) RubyGems for installing Log4r as a gem
-* (optional) Ruby syslog library for SyslogOutputter
-* (optional) XML configuration requires REXML
-* (optional) log4j chainsaw integration requires 'builder' >= 2.0
-* (optional) STARTTLS email login, requires 'smtp_tls" if Ruby <= 1.8.6
+1. (required) Ruby >= 1.7.0 (use log4r 1.0.2 for Ruby 1.6)
+2. (optional) RubyGems for installing Log4r as a gem
+3. (optional) Ruby syslog library for SyslogOutputter
+4. (optional) XML configuration requires REXML
+5. (optional) log4j chainsaw integration requires 'builder' >= 2.0
+6. (optional) STARTTLS email login, requires 'smtp_tls" if Ruby <= 1.8.6
 
 
 More Info
 ---------
 
 * Installation instructions are in the file INSTALL
-
 * Comprehensive examples are provided in examples/ and can be run right away
-
 * Log4r homepage: doc/index.html
-  Online: http://log4r.rubyforge.org/
-
 * Manual: doc/manual.html
-  Online: http://log4r.rubyforge.org/manual.html
-  
 * RDoc API reference: doc/rdoc/index.html 
-  Online: http://log4r.rubyforge.org/rdoc/index.html
-  
 * The changelog
-
-* Log4r is hosted by RubyForge, which provides news, bug tracking and a forum
-
 * Feel free to bug the maintainer with any questions (listed at top of file)
-
 
 Usability
 ---------
