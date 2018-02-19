@@ -1,10 +1,12 @@
 Log4r - A flexible logging library for Ruby
 
 
-- This release:      1.1.11
-- Release date:      04/Jan/2014
-- License:           BSD
-- Maintainer:        Colby Gutierrez-Kraybill
+|Contributor| |
+|-----------|-|
+|This release|1.1.11|
+|Release date|04/Jan/2014|
+|License|BSD|
+|Maintainer|Colby Gutierrez-Kraybill|
 
 |Contributor| |
 |-----------|-|
