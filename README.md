@@ -5,6 +5,7 @@ This release:      1.1.11
 Release date:      04/Jan/2014
 License:           BSD
 Maintainer:        Colby Gutierrez-Kraybill
+
 |Contributor| |
 |-----------|-|
 |Leon Torres|Original Maintainer|
@@ -16,8 +17,6 @@ Maintainer:        Colby Gutierrez-Kraybill
 |Charles Strahan|log4jxml/chainsaw integration|
 |Nitay Joffe|STARTTLS|
 |David Siegal|Smart updates to RollingFileOutputter|
-Homepage:          http://log4r.rubyforge.org/
-Download:          http://rubyforge.org/frs/?group_id=203
 
 Summary
 -------
