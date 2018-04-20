@@ -15,6 +15,8 @@ module Log4r
 
   class SyslogOutputter < Outputter
     include Syslog::Constants
+    
+    SEMAPHOR = Mutex.new()
 
     # maps default log4r levels to syslog priorities (logevents never see ALL and OFF)
     # SYSLOG Levels are:
@@ -118,8 +120,16 @@ module Log4r
 	msg = o.inspect
       end
 
-      Syslog.open(@ident, @logopt, @facility) do |s|
-        s.log(pri, '%s', msg)
+      #Block globally, since the Syslog gets opened for the process
+      SEMAPHOR.synchronize do
+        Syslog.open(@ident, @logopt, @facility) do |s|
+          s.mask = begin
+            Syslog::LOG_UPTO(SYSLOG_LEVELS_MAP[@levels_map[Log4r::LNAMES[@level]]])
+          rescue
+            Syslog::LOG_UPTO(LOG_INFO)
+          end
+          s.log(pri, '%s', msg)
+        end
       end
     end
   end
