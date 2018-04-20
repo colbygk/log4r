@@ -6,15 +6,15 @@
 # == Usage
 #
 #   df_out = DateFileOutputter.new('name',
-#              :dirname="/tmp", :date_pattern=>"%m-%d" 
+#              :dirname=>"/tmp", :date_pattern=>"%m-%d"
 #            )
 #
 # == Rate of Change
 #
 # A new logfile is created whenever the current time as formatted by the date
-# pattern no longer matches the previous time. (This is a simple String 
+# pattern no longer matches the previous time. (This is a simple String
 # comparison.) So, in order to change the frequency of the rollover, just
-# alter the date pattern to match how fast the files should be generated. 
+# alter the date pattern to match how fast the files should be generated.
 # For instance, to generate files by the minute,
 #
 #   df_out.date_pattern = "%M"
@@ -40,6 +40,12 @@ module Log4r
   #
   # [<tt>:dirname</tt>]         Directory of the log file
   # [<tt>:date_pattern</tt>]    Time.strftime format string (default is "%Y-%m-%d")
+  # Format directives: (details see: http://apidock.com/ruby/Time/strftime)
+  # %Y - Year
+  # %m - Month of the year
+  # %d - Day of the month
+  # %H - Hour of the day
+  # %M - Minute of the hour
 
   class DateFileOutputter < FileOutputter
     DEFAULT_DATE_FMT = "%Y-%m-%d"
@@ -57,6 +63,13 @@ module Log4r
       end
 
       _filename = (hash[:filename] or hash['filename'])
+      # :filename only work with format like xx.xx, should have validate
+      if _filename
+        if not /\w+\.\w+/.match(_filename)
+          raise StandardError, "'#{_filename}' must be with format like xx.xx", caller
+        end
+      end
+
       if _filename.nil?
         @filebase = File.basename( $0, '.rb') + ".log"
       else
@@ -97,7 +110,7 @@ module Log4r
       false
     end
 
-    # change the file 
+    # change the file
     def change
       begin
         @out.close
