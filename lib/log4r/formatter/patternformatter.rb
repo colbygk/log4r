@@ -24,6 +24,7 @@ module Log4r
     # %p - process ID aka PID<br>
     # %M - formatted message<br>
     # %l - Level in string form<br>
+    # %L - Level in string form colorized<br>
     # %x - Nested Diagnostic Context (NDC)<br>
     # %X - Mapped Diagnostic Context (MDC), syntax is "%X{key}"<br>
     # %% - Insert a %<br>
@@ -39,6 +40,16 @@ module Log4r
       "p" => 'Process.pid.to_s',
       "M" => 'format_object(event.data)',
       "l" => 'LNAMES[event.level]',
+      "L" => %q|case LNAMES[event.level]
+                when "ERROR"
+                  "\e[31m#{LNAMES[event.level][0..3]}\e[0m"
+                when "WARN"
+                   "\e[33m#{LNAMES[event.level][0..3]}\e[0m"
+                when "INFO"
+                   "\e[32m#{LNAMES[event.level][0..3]}\e[0m"
+                else
+                   LNAMES[event.level][0..3]
+                end|,
       "x" => 'Log4r::NDC.get()',
       "X" => 'Log4r::MDC.get("DTR_REPLACE")',
       "%" => '"%"'
@@ -54,7 +65,7 @@ module Log4r
     # * $6 is the stuff after the directive or "" if not applicable
     # * $7 is the remainder
   
-    DirectiveRegexp = /([^%]*)((%-?\d*(\.\d+)?)([cCdgtTmhpMlxX%]))?(\{.+?\})?(.*)/
+    DirectiveRegexp = /([^%]*)((%-?\d*(\.\d+)?)([cCdgtTmhpMlLxX%]))?(\{.+?\})?(.*)/
   
     # default date format
     ISO8601 = "%Y-%m-%d %H:%M:%S"
