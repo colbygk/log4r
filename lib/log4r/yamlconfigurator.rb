@@ -53,7 +53,7 @@ module Log4r
 
     def self.actual_load( yaml_docs)
       log4r_config = nil
-      YAML.load_stream( yaml_docs){ |doc|
+      Psych.load_stream( yaml_docs){ |doc|
         doc.has_key?( 'log4r_config') and log4r_config = doc['log4r_config'] and break
       }
       if log4r_config.nil?
