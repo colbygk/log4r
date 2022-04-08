@@ -34,7 +34,7 @@ module Log4r
       super( _name, hash.merge({:create => false}) )
       if hash.has_key?(:maxsize) || hash.has_key?('maxsize') 
         _maxsize = (hash[:maxsize] or hash['maxsize']).to_i
-        if _maxsize.class != Fixnum
+        if !_maxsize.is_a? Integer
           raise TypeError, "Argument 'maxsize' must be an Fixnum", caller
         end
         if _maxsize == 0
@@ -44,7 +44,7 @@ module Log4r
       end
       if hash.has_key?(:maxtime) || hash.has_key?('maxtime') 
         _maxtime = (hash[:maxtime] or hash['maxtime']).to_i
-        if _maxtime.class != Fixnum
+        if !_maxsize.is_a? Integer
           raise TypeError, "Argument 'maxtime' must be an Fixnum", caller
         end
         if _maxtime == 0
@@ -54,7 +54,7 @@ module Log4r
       end
       if hash.has_key?(:max_backups) || hash.has_key?('max_backups') 
         _max_backups = (hash[:max_backups] or hash['max_backups']).to_i
-        if _max_backups.class != Fixnum
+        if !_maxsize.is_a? Integer
           raise TypeError, "Argument 'max_backups' must be an Fixnum", caller
         end
         @max_backups = _max_backups
@@ -148,7 +148,7 @@ module Log4r
       # File.ctime can return the erstwhile creation time. File.size? can similarly return
       # old information. So instead of simply doing ctime and size checks after File.new, we 
       # do slightly more complicated checks beforehand:
-      if (mode == 'w' || !File.exists?(@filename))
+      if (mode == 'w' || !File.exist?(@filename))
         @start_time = Time.now()
         @datasize = 0
       else

@@ -9,6 +9,7 @@ require 'log4r/version'
 
 Gem::Specification.new do |gem|
   # gem is a Gem::Specification... see http://docs.rubygems.org/read/chapter/20 for more options
+  gem.required_ruby_version = '>= 2.5'
   gem.name = "log4r"
   gem.version = Log4r::VERSION
   gem.summary = %Q{Log4r, logging framework for ruby}
